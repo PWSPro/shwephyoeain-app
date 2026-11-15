@@ -3,75 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ရွှေဖြိုးအိမ် Mini Mart POS</title>
+    <title>ရွှေဖြိုးအိမ် Mini Mart</title>
     <style>
         :root[data-theme="dark"] {
-            --bg-main: #0f172a;
-            --bg-card: #1e293b;
-            --bg-input: #0f172a;
+            --bg-body: #0b0f19;
+            --bg-surface: #151c2c;
+            --bg-elevated: #1e293b;
             --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
+            --text-sub: #94a3b8;
+            --border: #26334d;
             --primary: #10b981;
-            --primary-hover: #059669;
+            --primary-dark: #059669;
             --accent: #3b82f6;
             --danger: #ef4444;
             --warning: #f59e0b;
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            --lcd-bg: #1a2e26;
+            --lcd-text: #4ade80;
+            --key-bg: #1e293b;
+            --key-shadow: #090d16;
+            --key-op-bg: #253551;
         }
 
         :root[data-theme="light"] {
-            --bg-main: #f1f5f9;
-            --bg-card: #ffffff;
-            --bg-input: #f8fafc;
+            --bg-body: #f1f5f9;
+            --bg-surface: #ffffff;
+            --bg-elevated: #f8fafc;
             --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
+            --text-sub: #64748b;
+            --border: #cbd5e1;
             --primary: #059669;
-            --primary-hover: #047857;
+            --primary-dark: #047857;
             --accent: #2563eb;
             --danger: #dc2626;
             --warning: #d97706;
-            --shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            --lcd-bg: #dce7dc;
+            --lcd-text: #0f291e;
+            --key-bg: #ffffff;
+            --key-shadow: #94a3b8;
+            --key-op-bg: #e2e8f0;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
 
         body {
-            background-color: var(--bg-main);
+            background-color: var(--bg-body);
             color: var(--text-main);
             min-height: 100vh;
-            padding-bottom: 80px;
-            transition: background-color 0.25s, color 0.25s;
+            padding-bottom: 130px;
         }
 
-        /* Top Header */
-        .header {
-            background-color: var(--bg-card);
-            border-bottom: 1px solid var(--border-color);
-            padding: 12px 15px;
+        /* Clean Compact Header */
+        .app-header {
+            background-color: var(--bg-surface);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 14px;
             position: sticky;
             top: 0;
-            z-index: 100;
-            box-shadow: var(--shadow);
+            z-index: 90;
         }
 
-        .header-top {
+        .header-main {
+            max-width: 600px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 700px;
-            margin: 0 auto;
         }
 
-        .brand-title {
-            font-size: 18px;
+        .store-brand {
+            font-size: 17px;
             font-weight: 800;
             color: var(--primary);
             display: flex;
@@ -79,74 +86,317 @@
             gap: 6px;
         }
 
-        .top-controls {
+        .header-actions {
             display: flex;
             gap: 6px;
         }
 
-        .icon-btn {
-            background: var(--bg-input);
-            border: 1px solid var(--border-color);
+        .pill-btn {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
             color: var(--text-main);
             padding: 6px 10px;
             border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .icon-btn:active {
-            transform: scale(0.95);
-        }
-
-        .live-clock {
-            max-width: 700px;
-            margin: 6px auto 0;
             font-size: 12px;
-            color: var(--text-muted);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .header-sub {
+            max-width: 600px;
+            margin: 6px auto 0;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            font-size: 11px;
+            color: var(--text-sub);
         }
 
-        .map-chip {
+        .map-link {
             color: var(--accent);
             text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 3px;
+            font-weight: 700;
         }
 
-        /* Main Container */
-        .container {
-            max-width: 700px;
-            margin: 15px auto;
-            padding: 0 12px;
+        /* Main Layout */
+        .main-wrap {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 12px;
         }
 
-        .tab-section {
+        .page {
             display: none;
         }
 
-        .tab-section.active {
+        .page.active {
             display: block;
         }
 
-        /* Cards & Inputs */
-        .card {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: var(--shadow);
+        /* Sub-navigation Pills */
+        .sub-nav {
+            display: flex;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 14px;
         }
 
-        .card-title {
+        .sub-nav-btn {
+            flex: 1;
+            padding: 9px;
+            border: none;
+            background: transparent;
+            color: var(--text-sub);
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .sub-nav-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        /* Search Input */
+        .search-wrap {
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 13px 38px 13px 14px;
+            background: var(--bg-surface);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-sub);
+            font-size: 16px;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        /* Category Bar */
+        .cat-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+        }
+
+        .cat-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-btn {
+            padding: 7px 14px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            color: var(--text-sub);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .cat-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        /* Clean Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .prod-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 96px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.1s, border-color 0.1s;
+        }
+
+        .prod-card:active {
+            transform: scale(0.97);
+            border-color: var(--primary);
+        }
+
+        .prod-title {
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 1.35;
+            margin-bottom: 6px;
+        }
+
+        .prod-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .prod-price {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .prod-unit {
+            font-size: 11px;
+            color: var(--text-sub);
+            background: var(--bg-elevated);
+            padding: 3px 7px;
+            border-radius: 6px;
+        }
+
+        /* Sticky Floating Cart Bar */
+        .floating-cart {
+            position: fixed;
+            bottom: 68px;
+            left: 12px;
+            right: 12px;
+            max-width: 576px;
+            margin: 0 auto;
+            background: var(--primary);
+            color: #ffffff;
+            padding: 12px 16px;
+            border-radius: 14px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
+            z-index: 95;
+            cursor: pointer;
+        }
+
+        .floating-cart.show {
+            display: flex;
+        }
+
+        /* Physical Calculator Styling */
+        .calc-machine {
+            background: var(--bg-surface);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .calc-lcd {
+            background: var(--lcd-bg);
+            border: 3px inset var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: right;
+            margin-bottom: 16px;
+            min-height: 92px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .lcd-history {
+            font-size: 14px;
+            color: var(--lcd-text);
+            opacity: 0.75;
+            min-height: 20px;
+            word-break: break-all;
+            font-family: "Courier New", monospace;
+        }
+
+        .lcd-main {
+            font-size: 34px;
+            font-weight: 800;
+            color: var(--lcd-text);
+            letter-spacing: 1px;
+            word-break: break-all;
+            font-family: "Courier New", monospace;
+        }
+
+        .calc-pad {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .tactile-key {
+            background: var(--key-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            border-bottom: 5px solid var(--key-shadow);
+            border-radius: 12px;
+            height: 60px;
+            font-size: 22px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.05s, border-bottom-width 0.05s;
+        }
+
+        .tactile-key:active {
+            transform: translateY(4px);
+            border-bottom-width: 1px;
+        }
+
+        .tactile-key.op-key {
+            background: var(--key-op-bg);
+            color: var(--accent);
+            font-size: 24px;
+        }
+
+        .tactile-key.clr-key {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .tactile-key.eq-key {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary-dark);
+            border-bottom-color: #064e3b;
+        }
+
+        /* Generic Cards & Inputs */
+        .box-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 12px;
+        }
+
+        .box-title {
             font-size: 15px;
             font-weight: 700;
             margin-bottom: 12px;
@@ -156,766 +406,592 @@
             align-items: center;
         }
 
-        input, select {
+        .form-input, .form-select {
             width: 100%;
-            padding: 11px 13px;
-            background-color: var(--bg-input);
-            border: 1px solid var(--border-color);
+            padding: 12px;
+            background: var(--bg-body);
+            border: 1px solid var(--border);
             border-radius: 10px;
             color: var(--text-main);
             font-size: 14px;
+            margin-bottom: 10px;
             outline: none;
         }
 
-        input:focus, select:focus {
+        .form-input:focus {
             border-color: var(--primary);
         }
 
-        .grid-2 {
+        .row-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
         }
 
-        .btn {
-            border: none;
-            padding: 11px 14px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            transition: transform 0.1s, opacity 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .btn:active {
-            transform: scale(0.97);
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: #ffffff;
+        .action-btn {
             width: 100%;
-        }
-
-        .btn-accent {
-            background-color: var(--accent);
-            color: #ffffff;
-        }
-
-        .btn-danger {
-            background-color: var(--danger);
-            color: #ffffff;
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-        }
-
-        /* Categories Bar */
-        .category-bar {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            margin: 10px 0;
-            scrollbar-width: none;
-        }
-
-        .category-bar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .cat-chip {
-            padding: 7px 13px;
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            font-size: 13px;
-            white-space: nowrap;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
             cursor: pointer;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        .cat-chip.active {
-            background-color: var(--primary);
+            background: var(--primary);
             color: #fff;
-            border-color: var(--primary);
         }
 
-        /* Product Grid for POS */
-        .pos-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
-            gap: 10px;
+        .action-btn:active {
+            opacity: 0.9;
         }
 
-        .pos-item {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px;
-            cursor: pointer;
-            transition: border-color 0.15s, transform 0.1s;
+        .list-row {
             display: flex;
-            flex-direction: column;
             justify-content: space-between;
-            min-height: 90px;
-            position: relative;
+            align-items: center;
+            padding: 12px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 8px;
         }
 
-        .pos-item:active {
-            transform: scale(0.96);
-            border-color: var(--primary);
-        }
-
-        .pos-item-cat {
+        .badge {
             font-size: 11px;
-            color: var(--text-muted);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+        }
+
+        /* Summary Grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .kpi-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 6px;
+            text-align: center;
+        }
+
+        .kpi-label {
+            font-size: 11px;
+            color: var(--text-sub);
             margin-bottom: 4px;
         }
 
-        .pos-item-name {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            line-height: 1.3;
-        }
-
-        .pos-item-price {
+        .kpi-val {
             font-size: 15px;
             font-weight: 800;
-            color: var(--primary);
         }
 
-        /* Cart Section */
-        .cart-list {
-            max-height: 240px;
-            overflow-y: auto;
-            margin-bottom: 12px;
-            border-bottom: 1px dashed var(--border-color);
+        /* Slide-up Checkout Drawer */
+        .drawer-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 200;
         }
 
-        .cart-row {
+        .drawer-backdrop.open {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-top: 1px solid var(--border-color);
-            font-size: 14px;
         }
 
-        .cart-row:first-child {
-            border-top: none;
+        .drawer-sheet {
+            background: var(--bg-surface);
+            width: 100%;
+            max-width: 600px;
+            border-radius: 20px 20px 0 0;
+            padding: 18px;
+            max-height: 88vh;
+            overflow-y: auto;
+            border-top: 2px solid var(--primary);
         }
 
-        .qty-controls {
+        .qty-box {
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
         .qty-btn {
-            width: 26px;
-            height: 26px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-            background: var(--bg-input);
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-elevated);
             color: var(--text-main);
-            font-weight: bold;
+            font-size: 16px;
+            font-weight: 800;
             cursor: pointer;
         }
 
-        .summary-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-            font-size: 15px;
-        }
-
-        .total-amount {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-
-        .change-amount {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--accent);
-        }
-
-        .quick-cash {
+        .cash-chips {
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
-            margin: 8px 0 12px;
+            margin: 8px 0 14px;
         }
 
-        .cash-chip {
+        .chip {
             flex: 1;
             min-width: 60px;
-            padding: 6px;
+            padding: 8px 4px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 8px;
             font-size: 12px;
-            background: var(--bg-input);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            border-radius: 6px;
+            font-weight: 700;
+            text-align: center;
             cursor: pointer;
-            text-align: center;
-            font-weight: 600;
         }
 
-        /* Inventory List */
-        .inv-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            background: var(--bg-input);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            margin-bottom: 8px;
-        }
-
-        .inv-meta {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 3px;
-        }
-
-        /* Stats Boxes */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-
-        .stat-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px 8px;
-            text-align: center;
-        }
-
-        .stat-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 5px;
-        }
-
-        .stat-val {
-            font-size: 15px;
-            font-weight: 800;
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
+        /* Bottom Nav */
+        .bottom-bar {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background-color: var(--bg-card);
-            border-top: 1px solid var(--border-color);
+            background: var(--bg-surface);
+            border-top: 1px solid var(--border);
             display: flex;
             justify-content: space-around;
             padding: 8px 0;
             z-index: 100;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
         }
 
-        .nav-item {
+        .tab-btn {
             background: none;
             border: none;
-            color: var(--text-muted);
+            color: var(--text-sub);
             font-size: 11px;
-            font-weight: 600;
+            font-weight: 700;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 3px;
-            cursor: pointer;
             flex: 1;
-        }
-
-        .nav-item.active {
-            color: var(--primary);
-        }
-
-        .nav-icon {
-            font-size: 18px;
-        }
-
-        /* Floating Calculator Modal */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.6);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 200;
-            padding: 15px;
-        }
-
-        .modal-overlay.show {
-            display: flex;
-        }
-
-        .calc-box {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 18px;
-            width: 100%;
-            max-width: 340px;
-            padding: 15px;
-            box-shadow: var(--shadow);
-        }
-
-        .calc-screen {
-            background: var(--bg-input);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 12px;
-            text-align: right;
-            margin-bottom: 12px;
-        }
-
-        .calc-exp {
-            font-size: 13px;
-            color: var(--text-muted);
-            min-height: 18px;
-        }
-
-        .calc-res {
-            font-size: 26px;
-            font-weight: 800;
-            color: var(--primary);
-            word-break: break-all;
-        }
-
-        .calc-keys {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-        }
-
-        .calc-key {
-            padding: 14px 0;
-            font-size: 17px;
-            font-weight: 700;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            background: var(--bg-input);
-            color: var(--text-main);
             cursor: pointer;
         }
 
-        .calc-key:active {
-            transform: scale(0.94);
+        .tab-btn.active {
+            color: var(--primary);
         }
 
-        .calc-key.op {
-            color: var(--accent);
-            background: rgba(59, 130, 246, 0.1);
-        }
-
-        .calc-key.eq {
-            background: var(--primary);
-            color: #fff;
-            border-color: var(--primary);
-        }
-
-        .calc-key.clr {
-            color: var(--danger);
+        .tab-icon {
+            font-size: 19px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header-top">
-            <div class="brand-title">
-                🏪 <span id="storeTitle">ရွှေဖြိုးအိမ် Mini Mart</span>
-            </div>
-            <div class="top-controls">
-                <button class="icon-btn" onclick="toggleCalc()">🧮 <span data-i18n="calcBtn">တွက်စက်</span></button>
-                <button class="icon-btn" onclick="toggleLang()" id="langBtn">🌐 EN</button>
-                <button class="icon-btn" onclick="toggleTheme()" id="themeBtn">☀️</button>
+    <!-- Top Header -->
+    <header class="app-header">
+        <div class="header-main">
+            <div class="store-brand">🏪 ရွှေဖြိုးအိမ် Mini Mart</div>
+            <div class="header-actions">
+                <button class="pill-btn" onclick="toggleLang()" id="langToggle">🌐 EN</button>
+                <button class="pill-btn" onclick="toggleTheme()" id="themeToggle">☀️</button>
             </div>
         </div>
-        <div class="live-clock">
-            <span id="liveDateTime">Loading time...</span>
-            <a href="#" id="topMapLink" target="_blank" class="map-chip">📍 Google Map</a>
+        <div class="header-sub">
+            <span id="liveClock">🕒 Loading...</span>
+            <a href="#" id="headerMapLink" target="_blank" class="map-link">📍 Google Map</a>
         </div>
     </header>
 
-    <div class="container">
+    <main class="main-wrap">
 
-        <!-- TAB 1: POS & PRICE SEARCH -->
-        <section id="tab-pos" class="tab-section active">
-            <!-- Cart / Active Bill Card -->
-            <div class="card">
-                <div class="card-title">
-                    <span data-i18n="currentBill">🧾 လက်ရှိဘောင်ချာ (Cart)</span>
-                    <button class="icon-btn" onclick="clearCart()" style="color:var(--danger);" data-i18n="clearCart">အသစ်ပြန်စမည်</button>
-                </div>
-
-                <div class="cart-list" id="cartList"></div>
-
-                <div class="summary-row">
-                    <span data-i18n="totalLabel">ကျသင့်ငွေ စုစုပေါင်း:</span>
-                    <span class="total-amount"><span id="cartTotal">0</span> Ks</span>
-                </div>
-
-                <div class="grid-2" style="align-items:center; margin-top:8px;">
-                    <input type="number" id="cashReceived" placeholder="ပေးငွေ ရိုက်ထည့်ရန်" oninput="calculateChange()">
-                    <div style="text-align:right;">
-                        <div style="font-size:12px; color:var(--text-muted);" data-i18n="changeLabel">ပြန်အမ်းငွေ:</div>
-                        <div class="change-amount"><span id="changeAmount">0</span> Ks</div>
-                    </div>
-                </div>
-
-                <div class="quick-cash">
-                    <span class="cash-chip" onclick="setQuickCash('exact')" data-i18n="exactCash">အတိအကျ</span>
-                    <span class="cash-chip" onclick="setQuickCash(1000)">+1,000</span>
-                    <span class="cash-chip" onclick="setQuickCash(5000)">+5,000</span>
-                    <span class="cash-chip" onclick="setQuickCash(10000)">+10,000</span>
-                    <span class="cash-chip" onclick="setQuickCash(20000)">+20,000</span>
-                </div>
-
-                <button class="btn btn-primary" onclick="completeSale()" data-i18n="checkoutBtn">✅ ရောင်းချမှု မှတ်တမ်းတင်မည်</button>
+        <!-- PAGE 1: CLEAN POS / SELL -->
+        <section id="page-pos" class="page active">
+            <div class="search-wrap">
+                <input type="text" id="posSearchInput" class="search-input" placeholder="🔍 ပစ္စည်းအမည် ရှာရန်..." oninput="renderPOSGrid()">
+                <button class="clear-search" onclick="clearSearch()">✖</button>
             </div>
 
-            <!-- Search & Products -->
-            <input type="text" id="posSearch" placeholder="🔍 ပစ္စည်းအမည် ရှာဖွေရန် (နှိပ်ပြီး ဘောင်ချာထဲထည့်ပါ)..." oninput="renderPOS()">
+            <div class="cat-scroll" id="catContainer"></div>
 
-            <div class="category-bar" id="categoryBar"></div>
-
-            <div class="pos-grid" id="posGrid"></div>
+            <div class="product-grid" id="posGrid"></div>
         </section>
 
-        <!-- TAB 2: INVENTORY MANAGEMENT -->
-        <section id="tab-inventory" class="tab-section">
-            <div class="card">
-                <div class="card-title">
-                    <span id="formTitle" data-i18n="addProductTitle">➕ ပစ္စည်းအသစ် ထည့်သွင်းရန်</span>
+        <!-- PAGE 2: REAL TACTILE CALCULATOR -->
+        <section id="page-calc" class="page">
+            <div class="calc-machine">
+                <div class="calc-lcd">
+                    <div class="lcd-history" id="calcHistory">0</div>
+                    <div class="lcd-main" id="calcDisplay">0</div>
                 </div>
-                <div style="display:flex; flex-direction:column; gap:10px;">
-                    <input type="text" id="prodName" placeholder="ပစ္စည်းအမည် (ဥပမာ - Mama ခေါက်ဆွဲ)">
-                    <div class="grid-2">
-                        <select id="prodCat">
-                            <option value="အထွေထွေ">အထွေထွေ (General)</option>
+
+                <div class="calc-pad">
+                    <button class="tactile-key clr-key" onclick="pressCalc('AC')">AC</button>
+                    <button class="tactile-key op-key" onclick="pressCalc('DEL')">⌫</button>
+                    <button class="tactile-key op-key" onclick="pressCalc('%')">%</button>
+                    <button class="tactile-key op-key" onclick="pressCalc('/')">÷</button>
+
+                    <button class="tactile-key" onclick="pressCalc('7')">7</button>
+                    <button class="tactile-key" onclick="pressCalc('8')">8</button>
+                    <button class="tactile-key" onclick="pressCalc('9')">9</button>
+                    <button class="tactile-key op-key" onclick="pressCalc('*')">×</button>
+
+                    <button class="tactile-key" onclick="pressCalc('4')">4</button>
+                    <button class="tactile-key" onclick="pressCalc('5')">5</button>
+                    <button class="tactile-key" onclick="pressCalc('6')">6</button>
+                    <button class="tactile-key op-key" onclick="pressCalc('-')">−</button>
+
+                    <button class="tactile-key" onclick="pressCalc('1')">1</button>
+                    <button class="tactile-key" onclick="pressCalc('2')">2</button>
+                    <button class="tactile-key" onclick="pressCalc('3')">3</button>
+                    <button class="tactile-key op-key" onclick="pressCalc('+')">+</button>
+
+                    <button class="tactile-key" onclick="pressCalc('0')">0</button>
+                    <button class="tactile-key" onclick="pressCalc('00')">00</button>
+                    <button class="tactile-key" onclick="pressCalc('000')">000</button>
+                    <button class="tactile-key eq-key" onclick="pressCalc('=')">=</button>
+                </div>
+
+                <div class="row-2" style="margin-top: 14px;">
+                    <button class="action-btn" onclick="sendCalcToBill()" data-i18n="addCalcBill">➕ ဘောင်ချာထဲ ထည့်မည်</button>
+                    <button class="action-btn" style="background: var(--accent);" onclick="quickSaleFromCalc()" data-i18n="directSaleCalc">⚡ တိုက်ရိုက်ရောင်းမည်</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 3: INVENTORY & RESTOCK LIST -->
+        <section id="page-inv" class="page">
+            <div class="sub-nav">
+                <button class="sub-nav-btn active" onclick="switchInvSub('list', this)" data-i18n="subInvList">📦 ပစ္စည်းစာရင်း</button>
+                <button class="sub-nav-btn" onclick="switchInvSub('add', this)" id="subAddBtn" data-i18n="subInvAdd">➕ အသစ်ထည့်ရန်</button>
+                <button class="sub-nav-btn" onclick="switchInvSub('restock', this)" data-i18n="subRestock">🛒 ဝယ်ရန်စာရင်း</button>
+            </div>
+
+            <!-- Sub 1: Product List -->
+            <div id="inv-sub-list">
+                <div class="search-wrap">
+                    <input type="text" id="invSearchInput" class="search-input" placeholder="🔍 ပစ္စည်းရှာရန် / ပြင်ရန်..." oninput="renderInventoryList()">
+                </div>
+                <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px; text-align: right;" id="totalProdCount">စုစုပေါင်း 0 မျိုး</div>
+                <div id="invListContainer"></div>
+            </div>
+
+            <!-- Sub 2: Add / Edit Form -->
+            <div id="inv-sub-add" style="display: none;">
+                <div class="box-card">
+                    <div class="box-title" id="prodFormHeader">➕ ပစ္စည်းအသစ် ထည့်သွင်းရန်</div>
+                    <input type="text" id="inpProdName" class="form-input" placeholder="ပစ္စည်းအမည် (ဥပမာ - ရွှေဘိုပေါ်ဆန်း)">
+                    <div class="row-2">
+                        <select id="inpProdCat" class="form-select">
+                            <option value="အထွေထွေ">အထွေထွေ</option>
                             <option value="ဆန်/ဆီ/မီးဖိုချောင်">ဆန်/ဆီ/မီးဖိုချောင်</option>
-                            <option value="မုန့်မျိုးစုံ">မုန့်မျိုးစုံ (Snacks)</option>
-                            <option value="အချိုရည်/ကော်ဖီ">အချိုရည်/ကော်ဖီ (Drinks)</option>
+                            <option value="မုန့်မျိုးစုံ">မုန့်မျိုးစုံ</option>
+                            <option value="အချိုရည်/ကော်ဖီ">အချိုရည်/ကော်ဖီ</option>
                             <option value="လူသုံးကုန်/ဆပ်ပြာ">လူသုံးကုန်/ဆပ်ပြာ</option>
                         </select>
-                        <input type="text" id="prodUnit" placeholder="ယူနစ် (ဥပမာ - ၁ ထုပ်၊ ၁ ဘူး)">
+                        <input type="text" id="inpProdUnit" class="form-input" placeholder="ယူနစ် (၁ ထုပ် / ၁ ဘူး)">
                     </div>
-                    <div class="grid-2">
-                        <input type="number" id="prodCost" placeholder="အရင်းဈေး (Cost) - Ks">
-                        <input type="number" id="prodPrice" placeholder="ရောင်းဈေး (Price) - Ks">
+                    <div class="row-2">
+                        <input type="number" id="inpProdCost" class="form-input" placeholder="အရင်းဈေး (Ks)">
+                        <input type="number" id="inpProdPrice" class="form-input" placeholder="ရောင်းဈေး (Ks)">
                     </div>
-                    <button class="btn btn-primary" id="saveProdBtn" onclick="saveProduct()" data-i18n="saveProdBtn">💾 စာရင်းသိမ်းမည်</button>
+                    <button class="action-btn" onclick="saveProductItem()" id="btnSaveProd">💾 စာရင်းသိမ်းမည်</button>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-title">
-                    <span data-i18n="invListTitle">📦 ဆိုင်ရှိ ပစ္စည်းစာရင်း</span>
-                    <span id="invCount" style="font-size:12px; color:var(--text-muted);">0 မျိုး</span>
-                </div>
-                <input type="text" id="invSearch" placeholder="🔍 စာရင်းထဲမှ ရှာရန်..." oninput="renderInventory()" style="margin-bottom:12px;">
-                <div id="invList"></div>
-            </div>
-        </section>
-
-        <!-- TAB 3: DAILY SALES & PROFIT -->
-        <section id="tab-profit" class="tab-section">
-            <div class="stats-grid">
-                <div class="stat-box">
-                    <div class="stat-label" data-i18n="todayRevLabel">ယနေ့ ရောင်းရငွေ</div>
-                    <div class="stat-val" style="color:var(--accent);" id="statRevenue">0 Ks</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-label" data-i18n="todayCostLabel">ယနေ့ အရင်း</div>
-                    <div class="stat-val" id="statCost">0 Ks</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-label" data-i18n="todayProfitLabel">ယနေ့ အမြတ်</div>
-                    <div class="stat-val" style="color:var(--primary);" id="statProfit">0 Ks</div>
-                </div>
-            </div>
-
-            <!-- Manual Daily Revenue to Profit Calculator -->
-            <div class="card">
-                <div class="card-title" data-i18n="manualProfitTitle">📈 တစ်နေ့တာ ရောင်းရငွေမှ အမြတ်တွက်စက်</div>
-                <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;" data-i18n="manualProfitDesc">
-                    ဘောင်ချာတစ်ခုချင်း မမှတ်ဖြစ်သည့်နေ့များတွင် တစ်နေ့တာ စုစုပေါင်းရောင်းရငွေကို ရိုက်ထည့်ပြီး ပျမ်းမျှအမြတ်နှုန်းဖြင့် အမြန်တွက်နိုင်ပါသည်။
-                </p>
-                <div class="grid-2" style="margin-bottom:10px;">
-                    <div>
-                        <label style="font-size:12px; color:var(--text-muted);" data-i18n="totalSaleInput">စုစုပေါင်း ရောင်းရငွေ (Ks)</label>
-                        <input type="number" id="manualRev" placeholder="ဥပမာ - 150000" oninput="calcManualProfit()">
+            <!-- Sub 3: To-Buy / Restock List -->
+            <div id="inv-sub-restock" style="display: none;">
+                <div class="box-card">
+                    <div class="box-title">🛒 ကုန်ပြတ် / ထပ်ဝယ်ရန် မှတ်စု</div>
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <input type="text" id="inpRestockText" class="form-input" style="margin-bottom: 0;" placeholder="ဝယ်ရမည့်ပစ္စည်း ရိုက်ထည့်ပါ...">
+                        <button class="action-btn" style="width: auto; padding: 0 18px;" onclick="addManualRestock()">ထည့်မည်</button>
                     </div>
-                    <div>
-                        <label style="font-size:12px; color:var(--text-muted);" data-i18n="marginInput">ပျမ်းမျှအမြတ် ရာခိုင်နှုန်း (%)</label>
-                        <input type="number" id="manualMargin" value="15" placeholder="ဥပမာ - 15" oninput="calcManualProfit()">
-                    </div>
-                </div>
-                <div class="inv-item" style="margin-bottom:0;">
-                    <div>
-                        <div style="font-size:12px; color:var(--text-muted);" data-i18n="estCost">ခန့်မှန်း အရင်းနှုတ်ပြီးငွေ</div>
-                        <div style="font-weight:700;" id="manualCostOut">0 Ks</div>
-                    </div>
-                    <div style="text-align:right;">
-                        <div style="font-size:12px; color:var(--text-muted);" data-i18n="estProfit">ရရှိမည့် အသားတင်အမြတ်</div>
-                        <div style="font-weight:800; font-size:17px; color:var(--primary);" id="manualProfitOut">0 Ks</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Today's Sale Logs -->
-            <div class="card">
-                <div class="card-title">
-                    <span data-i18n="salesLogTitle">🕒 ယနေ့ အရောင်းမှတ်တမ်းများ</span>
-                    <button class="icon-btn" onclick="clearSalesLog()" style="color:var(--danger);" data-i18n="resetDayBtn">စာရင်းရှင်းမည်</button>
-                </div>
-                <div id="salesLogList"></div>
-            </div>
-        </section>
-
-        <!-- TAB 4: SETTINGS & GOOGLE MAPS -->
-        <section id="tab-settings" class="tab-section">
-            <div class="card">
-                <div class="card-title" data-i18n="mapCardTitle">📍 Google Maps Business Profile ချိတ်ဆက်ရန်</div>
-                <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;" data-i18n="mapCardDesc">
-                    သင့်ဆိုင်၏ Google Maps လင့်ခ်ကို ထည့်သွင်းထားနိုင်ပြီး Customer များကို လမ်းညွှန်ပေးရန် သို့မဟုတ် ဆိုင် Profile စီမံရန် တိုက်ရိုက်နှိပ်ဝင်နိုင်ပါသည်။
-                </p>
-                <input type="url" id="mapUrlInput" placeholder="https://maps.app.goo.gl/..." style="margin-bottom:10px;">
-                <div class="grid-2">
-                    <button class="btn btn-primary" onclick="saveMapUrl()" data-i18n="saveMapBtn">လင့်ခ်သိမ်းမည်</button>
-                    <a id="openMapBtn" href="#" target="_blank" class="btn btn-accent" style="text-decoration:none;" data-i18n="openMapBtn">🗺️ Map ဖွင့်ကြည့်မည်</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title" data-i18n="backupTitle">💾 Data Backup & Restore (ဖိုင်သိမ်းရန်)</div>
-                <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;" data-i18n="backupDesc">
-                    ဖုန်း Browser ရှင်းလင်းမိလျှင် စာရင်းများမပျောက်စေရန် JSON ဖိုင်အဖြစ် ဖုန်းထဲသို့ သိမ်းဆည်းထားပါ။
-                </p>
-                <div class="grid-2">
-                    <button class="btn btn-outline" onclick="exportBackup()">⬇️ Backup ဒေါင်းမည်</button>
-                    <button class="btn btn-outline" onclick="document.getElementById('importFile').click()">⬆️ ပြန်သွင်းမည်</button>
-                    <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importBackup(event)">
+                    <div id="restockContainer"></div>
                 </div>
             </div>
         </section>
 
+        <!-- PAGE 4: PROFIT & CREDIT BOOK (အမြတ် နှင့် အကြွေးစာရင်း) -->
+        <section id="page-finance" class="page">
+            <div class="sub-nav">
+                <button class="sub-nav-btn active" onclick="switchFinSub('profit', this)" data-i18n="subProfit">📈 နေ့စဉ်အမြတ်</button>
+                <button class="sub-nav-btn" onclick="switchFinSub('credit', this)" data-i18n="subCredit">📓 အကြွေးစာရင်း</button>
+            </div>
+
+            <!-- Sub 1: Daily Profit -->
+            <div id="fin-sub-profit">
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-label" data-i18n="kpiRev">ယနေ့ ရောင်းရငွေ</div>
+                        <div class="kpi-val" style="color: var(--accent);" id="kpiRevenue">0 Ks</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label" data-i18n="kpiCost">ယနေ့ အရင်း</div>
+                        <div class="kpi-val" id="kpiCost">0 Ks</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-label" data-i18n="kpiProf">အသားတင်အမြတ်</div>
+                        <div class="kpi-val" style="color: var(--primary);" id="kpiProfit">0 Ks</div>
+                    </div>
+                </div>
+
+                <!-- Quick Daily Revenue to Profit Calculator -->
+                <div class="box-card">
+                    <div class="box-title" data-i18n="quickProfitCalc">⚡ တစ်နေ့တာ ရောင်းရငွေမှ အမြတ်တွက်စက်</div>
+                    <div class="row-2">
+                        <div>
+                            <label style="font-size: 11px; color: var(--text-sub);">စုစုပေါင်း ရောင်းရငွေ (Ks)</label>
+                            <input type="number" id="inpDailyRev" class="form-input" placeholder="ဥပမာ - 200000" oninput="calcDailyMargin()">
+                        </div>
+                        <div>
+                            <label style="font-size: 11px; color: var(--text-sub);">ပျမ်းမျှအမြတ်နှုန်း (%)</label>
+                            <input type="number" id="inpDailyPct" class="form-input" value="15" oninput="calcDailyMargin()">
+                        </div>
+                    </div>
+                    <div class="list-row" style="margin-bottom: 0;">
+                        <div>
+                            <div style="font-size: 11px; color: var(--text-sub);">ခန့်မှန်း အရင်းငွေ</div>
+                            <div style="font-weight: 700;" id="outEstCost">0 Ks</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 11px; color: var(--text-sub);">ရရှိမည့် အမြတ်ငွေ</div>
+                            <div style="font-size: 17px; font-weight: 800; color: var(--primary);" id="outEstProfit">0 Ks</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-card">
+                    <div class="box-title">
+                        <span data-i18n="todayHistory">🕒 ယနေ့ အရောင်းမှတ်တမ်း</span>
+                        <button class="pill-btn" style="color: var(--danger);" onclick="resetDailySales()">စာရင်းရှင်းမည်</button>
+                    </div>
+                    <div id="salesHistoryList"></div>
+                </div>
+            </div>
+
+            <!-- Sub 2: Credit / Debt Book (အကြွေးစာရင်း) -->
+            <div id="fin-sub-credit" style="display: none;">
+                <div class="box-card">
+                    <div class="box-title">➕ အကြွေးစာရင်း အသစ်မှတ်ရန်</div>
+                    <input type="text" id="creditName" class="form-input" placeholder="ဝယ်သူအမည် (ဥပမာ - ဒေါ်မြ)">
+                    <div class="row-2">
+                        <input type="number" id="creditAmount" class="form-input" placeholder="ပမာဏ (Ks)">
+                        <input type="text" id="creditNote" class="form-input" placeholder="ပစ္စည်းမှတ်စု (ဥပမာ - ဆန် ၁ ပြည်)">
+                    </div>
+                    <button class="action-btn" onclick="addCreditRecord()">📓 အကြွေးမှတ်မည်</button>
+                </div>
+
+                <div class="box-card">
+                    <div class="box-title">
+                        <span>📋 ရရန်ရှိသော အကြွေးစုစုပေါင်း</span>
+                        <span id="totalCreditSum" style="color: var(--warning);">0 Ks</span>
+                    </div>
+                    <div id="creditListContainer"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 5: SETTINGS & GOOGLE MAPS -->
+        <section id="page-settings" class="page">
+            <div class="box-card">
+                <div class="box-title">📍 Google Maps Business Profile</div>
+                <input type="url" id="inpMapUrl" class="form-input" placeholder="https://maps.app.goo.gl/...">
+                <div class="row-2">
+                    <button class="action-btn" onclick="saveMapSetting()">သိမ်းမည်</button>
+                    <a href="#" id="btnOpenMap" target="_blank" class="action-btn" style="background: var(--accent); text-align: center; text-decoration: none;">🗺️ Map ဖွင့်မည်</a>
+                </div>
+            </div>
+
+            <div class="box-card">
+                <div class="box-title">💾 Data Backup & Restore (ဖိုင်သိမ်းရန်)</div>
+                <p style="font-size: 12px; color: var(--text-sub); margin-bottom: 12px;">
+                    ဖုန်း Browser ရှင်းလင်းမိလျှင် စာရင်းများ မပျောက်စေရန် Backup ဖိုင် ဒေါင်းလုဒ်ဆွဲထားနိုင်ပါသည်။
+                </p>
+                <div class="row-2">
+                    <button class="action-btn" style="background: var(--bg-elevated); color: var(--text-main); border: 1px solid var(--border);" onclick="downloadBackup()">⬇️ Backup ထုတ်မည်</button>
+                    <button class="action-btn" style="background: var(--bg-elevated); color: var(--text-main); border: 1px solid var(--border);" onclick="document.getElementById('restoreInput').click()">⬆️ ပြန်သွင်းမည်</button>
+                    <input type="file" id="restoreInput" accept=".json" style="display: none;" onchange="uploadBackup(event)">
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Sticky Floating Cart Bar -->
+    <div class="floating-cart" id="floatingCartBar" onclick="openCheckoutDrawer()">
+        <div>
+            <span style="font-weight: 800; font-size: 15px;" id="floatCartCount">🛒 0 ခု</span>
+            <span style="font-size: 12px; opacity: 0.9; margin-left: 6px;">ဘောင်ချာကြည့်ရန် နှိပ်ပါ</span>
+        </div>
+        <div style="font-size: 17px; font-weight: 800;" id="floatCartTotal">0 Ks ➔</div>
     </div>
 
-    <!-- Floating Calculator Modal -->
-    <div class="modal-overlay" id="calcModal" onclick="if(event.target===this) toggleCalc()">
-        <div class="calc-box">
-            <div class="card-title">
-                <span data-i18n="calcTitle">🧮 အမြန် ဂဏန်းပေါင်းစက်</span>
-                <button class="icon-btn" onclick="toggleCalc()">✖</button>
+    <!-- Slide-up Checkout Drawer -->
+    <div class="drawer-backdrop" id="checkoutDrawer" onclick="if(event.target===this) closeCheckoutDrawer()">
+        <div class="drawer-sheet">
+            <div class="box-title">
+                <span>🧾 လက်ရှိဘောင်ချာ (ငွေရှင်းရန်)</span>
+                <button class="pill-btn" onclick="closeCheckoutDrawer()">✖ ပိတ်မည်</button>
             </div>
-            <div class="calc-screen">
-                <div class="calc-exp" id="calcExp"></div>
-                <div class="calc-res" id="calcRes">0</div>
+
+            <div id="drawerCartItems" style="max-height: 220px; overflow-y: auto; margin-bottom: 12px;"></div>
+
+            <div class="list-row" style="background: var(--bg-body);">
+                <span style="font-weight: 700;">ကျသင့်ငွေ စုစုပေါင်း</span>
+                <span style="font-size: 20px; font-weight: 800; color: var(--primary);" id="drawerTotal">0 Ks</span>
             </div>
-            <div class="calc-keys">
-                <button class="calc-key clr" onclick="calcInput('C')">C</button>
-                <button class="calc-key op" onclick="calcInput('DEL')">⌫</button>
-                <button class="calc-key op" onclick="calcInput('/')">÷</button>
-                <button class="calc-key op" onclick="calcInput('*')">×</button>
 
-                <button class="calc-key" onclick="calcInput('7')">7</button>
-                <button class="calc-key" onclick="calcInput('8')">8</button>
-                <button class="calc-key" onclick="calcInput('9')">9</button>
-                <button class="calc-key op" onclick="calcInput('-')">−</button>
-
-                <button class="calc-key" onclick="calcInput('4')">4</button>
-                <button class="calc-key" onclick="calcInput('5')">5</button>
-                <button class="calc-key" onclick="calcInput('6')">6</button>
-                <button class="calc-key op" onclick="calcInput('+')">+</button>
-
-                <button class="calc-key" onclick="calcInput('1')">1</button>
-                <button class="calc-key" onclick="calcInput('2')">2</button>
-                <button class="calc-key" onclick="calcInput('3')">3</button>
-                <button class="calc-key eq" onclick="calcInput('=')">=</button>
-
-                <button class="calc-key" onclick="calcInput('0')" style="grid-column: span 2;">0</button>
-                <button class="calc-key" onclick="calcInput('00')">00</button>
-                <button class="calc-key" onclick="calcInput('.')">.</button>
+            <div class="row-2" style="align-items: center; margin-top: 10px;">
+                <input type="number" id="inpCashReceived" class="form-input" style="margin-bottom: 0;" placeholder="ပေးငွေ ရိုက်ထည့်ရန်" oninput="updateChangeCalc()">
+                <div style="text-align: right;">
+                    <div style="font-size: 11px; color: var(--text-sub);">ပြန်အမ်းငွေ</div>
+                    <div style="font-size: 19px; font-weight: 800; color: var(--accent);" id="drawerChange">0 Ks</div>
+                </div>
             </div>
-            <button class="btn btn-primary" style="margin-top:10px;" onclick="addCalcResultToCart()" data-i18n="addCalcToBill">
-                ➕ ရလဒ်ကို ဘောင်ချာထဲ ပေါင်းထည့်မည်
-            </button>
+
+            <div class="cash-chips">
+                <div class="chip" onclick="fillQuickCash('exact')">အတိအကျ</div>
+                <div class="chip" onclick="fillQuickCash(1000)">+1,000</div>
+                <div class="chip" onclick="fillQuickCash(5000)">+5,000</div>
+                <div class="chip" onclick="fillQuickCash(10000)">+10,000</div>
+                <div class="chip" onclick="fillQuickCash(20000)">+20,000</div>
+            </div>
+
+            <div class="row-2">
+                <button class="action-btn" style="background: var(--danger);" onclick="clearCartAll()">🗑️ အသစ်ပြန်စမည်</button>
+                <button class="action-btn" onclick="confirmCheckout()">✅ ရောင်းချမှု မှတ်မည်</button>
+            </div>
         </div>
     </div>
 
     <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <button class="nav-item active" onclick="switchTab('pos', this)">
-            <span class="nav-icon">🛒</span>
+    <nav class="bottom-bar">
+        <button class="tab-btn active" id="nav-pos" onclick="openPage('pos', this)">
+            <span class="tab-icon">🏪</span>
             <span data-i18n="navPos">ဈေးရောင်း</span>
         </button>
-        <button class="nav-item" onclick="switchTab('inventory', this)">
-            <span class="nav-icon">📦</span>
-            <span data-i18n="navInv">ပစ္စည်းစာရင်း</span>
+        <button class="tab-btn" id="nav-calc" onclick="openPage('calc', this)">
+            <span class="tab-icon">🧮</span>
+            <span data-i18n="navCalc">တွက်စက်</span>
         </button>
-        <button class="nav-item" onclick="switchTab('profit', this)">
-            <span class="nav-icon">📊</span>
-            <span data-i18n="navProfit">အမြတ်စာရင်း</span>
+        <button class="tab-btn" id="nav-inv" onclick="openPage('inv', this)">
+            <span class="tab-icon">📦</span>
+            <span data-i18n="navInv">ပစ္စည်းများ</span>
         </button>
-        <button class="nav-item" onclick="switchTab('settings', this)">
-            <span class="nav-icon">⚙️</span>
-            <span data-i18n="navSet">ဆက်တင်/Map</span>
+        <button class="tab-btn" id="nav-finance" onclick="openPage('finance', this)">
+            <span class="tab-icon">📊</span>
+            <span data-i18n="navFin">အမြတ်/အကြွေး</span>
+        </button>
+        <button class="tab-btn" id="nav-settings" onclick="openPage('settings', this)">
+            <span class="tab-icon">⚙️</span>
+            <span data-i18n="navSet">ဆက်တင်</span>
         </button>
     </nav>
 
     <script>
-        // --- 1. DATA INITIALIZATION & MIGRATION ---
-        let products = JSON.parse(localStorage.getItem('shwePhyoMiniMart_products')) || null;
-
-        // အရင် Version ဟောင်းထဲက Data ရှိရင် အလိုအလျောက် ဆွဲယူပေးခြင်း
-        if (!products) {
-            const oldPro = JSON.parse(localStorage.getItem('shwePhyoDataPRO'));
-            const oldBasic = JSON.parse(localStorage.getItem('shwePhyoData'));
-            const source = oldPro || oldBasic || [];
-            products = source.map(item => ({
-                id: item.id || Date.now() + Math.random(),
-                name: item.name,
-                category: 'အထွေထွေ',
-                unit: '၁ ခု',
-                cost: Math.round((parseInt(String(item.price).replace(/[^0-9]/g, '')) || 0) * 0.85),
-                price: parseInt(String(item.price).replace(/[^0-9]/g, '')) || 0
-            }));
-            localStorage.setItem('shwePhyoMiniMart_products', JSON.stringify(products));
+        // --- SAFE STORAGE HELPER ---
+        function loadStorage(key, fallback) {
+            try {
+                const raw = localStorage.getItem(key);
+                return raw ? JSON.parse(raw) : fallback;
+            } catch (e) {
+                return fallback;
+            }
         }
 
-        let cart = [];
-        let salesLog = JSON.parse(localStorage.getItem('shwePhyoMiniMart_sales')) || [];
-        let currentCat = 'အားလုံး';
-        let editingId = null;
-        let currentLang = localStorage.getItem('shwePhyoMiniMart_lang') || 'mm';
-        let currentTheme = localStorage.getItem('shwePhyoMiniMart_theme') || 'dark';
-        let mapUrl = localStorage.getItem('shwePhyoMiniMart_map') || 'https://www.google.com/maps/search/?api=1&query=ရွှေဖြိုးအိမ်+ကုန်စုံဆိုင်';
-
-        // --- 2. BILINGUAL DICTIONARY (MM / EN) ---
-        const i18n = {
-            mm: {
-                calcBtn: "တွက်စက်",
-                currentBill: "🧾 လက်ရှိဘောင်ချာ (Cart)",
-                clearCart: "အသစ်ပြန်စမည်",
-                totalLabel: "ကျသင့်ငွေ စုစုပေါင်း:",
-                changeLabel: "ပြန်အမ်းငွေ:",
-                exactCash: "အတိအကျ",
-                checkoutBtn: "✅ ရောင်းချမှု မှတ်တမ်းတင်မည်",
-                addProductTitle: "➕ ပစ္စည်းအသစ် ထည့်သွင်းရန်",
-                saveProdBtn: "💾 စာရင်းသိမ်းမည်",
-                invListTitle: "📦 ဆိုင်ရှိ ပစ္စည်းစာရင်း",
-                todayRevLabel: "ယနေ့ ရောင်းရငွေ",
-                todayCostLabel: "ယနေ့ အရင်း",
-                todayProfitLabel: "ယနေ့ အမြတ်",
-                manualProfitTitle: "📈 တစ်နေ့တာ ရောင်းရငွေမှ အမြတ်တွက်စက်",
-                manualProfitDesc: "ဘောင်ချာတစ်ခုချင်း မမှတ်ဖြစ်သည့်နေ့များတွင် တစ်နေ့တာ စုစုပေါင်းရောင်းရငွေကို ရိုက်ထည့်ပြီး ပျမ်းမျှအမြတ်နှုန်းဖြင့် အမြန်တွက်နိုင်ပါသည်။",
-                totalSaleInput: "စုစုပေါင်း ရောင်းရငွေ (Ks)",
-                marginInput: "ပျမ်းမျှအမြတ် ရာခိုင်နှုန်း (%)",
-                estCost: "ခန့်မှန်း အရင်းနှုတ်ပြီးငွေ",
-                estProfit: "ရရှိမည့် အသားတင်အမြတ်",
-                salesLogTitle: "🕒 ယနေ့ အရောင်းမှတ်တမ်းများ",
-                resetDayBtn: "စာရင်းရှင်းမည်",
-                mapCardTitle: "📍 Google Maps Business Profile ချိတ်ဆက်ရန်",
-                mapCardDesc: "သင့်ဆိုင်၏ Google Maps လင့်ခ်ကို ထည့်သွင်းထားနိုင်ပြီး Customer များကို လမ်းညွှန်ပေးရန် သို့မဟုတ် ဆိုင် Profile စီမံရန် တိုက်ရိုက်နှိပ်ဝင်နိုင်ပါသည်။",
-                saveMapBtn: "လင့်ခ်သိမ်းမည်",
-                openMapBtn: "🗺️ Map ဖွင့်ကြည့်မည်",
-                backupTitle: "💾 Data Backup & Restore (ဖိုင်သိမ်းရန်)",
-                backupDesc: "ဖုန်း Browser ရှင်းလင်းမိလျှင် စာရင်းများမပျောက်စေရန် JSON ဖိုင်အဖြစ် ဖုန်းထဲသို့ သိမ်းဆည်းထားပါ။",
-                calcTitle: "🧮 အမြန် ဂဏန်းပေါင်းစက်",
-                addCalcToBill: "➕ ရလဒ်ကို ဘောင်ချာထဲ ပေါင်းထည့်မည်",
-                navPos: "ဈေးရောင်း",
-                navInv: "ပစ္စည်းစာရင်း",
-                navProfit: "အမြတ်စာရင်း",
-                navSet: "ဆက်တင်/Map"
-            },
-            en: {
-                calcBtn: "Calc",
-                currentBill: "🧾 Current Bill (Cart)",
-                clearCart: "Clear",
-                totalLabel: "Total Amount:",
-                changeLabel: "Change:",
-                exactCash: "Exact",
-                checkoutBtn: "✅ Complete Sale",
-                addProductTitle: "➕ Add / Edit Product",
-                saveProdBtn: "💾 Save Product",
-                invListTitle: "📦 Store Inventory",
-                todayRevLabel: "Today Revenue",
-                todayCostLabel: "Today Cost",
-                todayProfitLabel: "Net Profit",
-                manualProfitTitle: "📈 Daily Revenue to Profit Calculator",
-                manualProfitDesc: "Quickly calculate estimated profit from total daily sales revenue using your average profit margin percentage.",
-                totalSaleInput: "Total Daily Sales (Ks)",
-                marginInput: "Avg Profit Margin (%)",
-                estCost: "Estimated Cost",
-                estProfit: "Estimated Net Profit",
-                salesLogTitle: "🕒 Today's Sales History",
-                resetDayBtn: "Reset Day",
-                mapCardTitle: "📍 Google Maps Business Profile",
-                mapCardDesc: "Link your store's Google Maps URL for quick access and customer directions.",
-                saveMapBtn: "Save Link",
-                openMapBtn: "🗺️ Open Map",
-                backupTitle: "💾 Data Backup & Restore",
-                backupDesc: "Export your inventory and sales data as a JSON file to keep it safe.",
-                calcTitle: "🧮 Quick Calculator",
-                addCalcToBill: "➕ Add Result to Bill",
-                navPos: "POS / Sell",
-                navInv: "Inventory",
-                navProfit: "Profit",
-                navSet: "Settings"
-            }
-        };
-
-        // --- 3. SOUND EFFECT (POS BEEP) ---
-        function playBeep() {
+        function saveStorage(key, data) {
             try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(880, ctx.currentTime);
-                gain.gain.setValueAtTime(0.05, ctx.currentTime);
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start();
-                osc.stop(ctx.currentTime + 0.06);
+                localStorage.setItem(key, JSON.stringify(data));
             } catch (e) {}
         }
 
-        // --- 4. LIVE CLOCK, THEME & LANGUAGE ---
-        function updateClock() {
-            const now = new Date();
-            const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-            document.getElementById('liveDateTime').innerText = "🕒 " + now.toLocaleDateString(currentLang === 'mm' ? 'my-MM' : 'en-US', options);
+        function escapeHTML(str) {
+            return String(str || '').replace(/[&<>"']/g, m => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[m]));
         }
-        setInterval(updateClock, 1000);
+
+        // --- STATE INITIALIZATION & AUTO MIGRATION ---
+        let products = loadStorage('shwePhyoMiniMart_products', null);
+        if (!products) {
+            const legacy = loadStorage('shwePhyoDataPRO', null) || loadStorage('shwePhyoData', []);
+            products = Array.isArray(legacy) ? legacy.map(item => {
+                const p = parseInt(String(item.price || '0').replace(/[^0-9]/g, ''), 10) || 0;
+                return {
+                    id: item.id || (Date.now() + Math.floor(Math.random() * 1000)),
+                    name: String(item.name || 'ပစ္စည်း'),
+                    category: 'အထွေထွေ',
+                    unit: '၁ ခု',
+                    cost: Math.round(p * 0.85),
+                    price: p
+                };
+            }) : [];
+            saveStorage('shwePhyoMiniMart_products', products);
+        }
+
+        let salesLog = loadStorage('shwePhyoMiniMart_sales', []);
+        let creditList = loadStorage('shwePhyoMiniMart_credits', []);
+        let restockList = loadStorage('shwePhyoMiniMart_restock', []);
+        let mapUrl = localStorage.getItem('shwePhyoMiniMart_map') || 'https://www.google.com/maps/search/?api=1&query=ရွှေဖြိုးအိမ်+ကုန်စုံဆိုင်';
+        let currentTheme = localStorage.getItem('shwePhyoMiniMart_theme') || 'dark';
+        let currentLang = localStorage.getItem('shwePhyoMiniMart_lang') || 'mm';
+
+        let cart = [];
+        let selectedCategory = 'အားလုံး';
+        let editingProdId = null;
+
+        // --- BILINGUAL DICTIONARY ---
+        const dict = {
+            mm: {
+                navPos: "ဈေးရောင်း", navCalc: "တွက်စက်", navInv: "ပစ္စည်းများ", navFin: "အမြတ်/အကြွေး", navSet: "ဆက်တင်",
+                addCalcBill: "➕ ဘောင်ချာထဲ ထည့်မည်", directSaleCalc: "⚡ တိုက်ရိုက်ရောင်းမည်",
+                subInvList: "📦 ပစ္စည်းစာရင်း", subInvAdd: "➕ အသစ်ထည့်ရန်", subRestock: "🛒 ဝယ်ရန်စာရင်း",
+                subProfit: "📈 နေ့စဉ်အမြတ်", subCredit: "📓 အကြွေးစာရင်း",
+                kpiRev: "ယနေ့ ရောင်းရငွေ", kpiCost: "ယနေ့ အရင်း", kpiProf: "အသားတင်အမြတ်",
+                quickProfitCalc: "⚡ တစ်နေ့တာ ရောင်းရငွေမှ အမြတ်တွက်စက်", todayHistory: "🕒 ယနေ့ အရောင်းမှတ်တမ်း"
+            },
+            en: {
+                navPos: "Sell / POS", navCalc: "Calculator", navInv: "Inventory", navFin: "Profit/Credit", navSet: "Settings",
+                addCalcBill: "➕ Add to Bill", directSaleCalc: "⚡ Instant Sale",
+                subInvList: "📦 Products", subInvAdd: "➕ Add New", subRestock: "🛒 To-Buy List",
+                subProfit: "📈 Daily Profit", subCredit: "📓 Credit Book",
+                kpiRev: "Today Sales", kpiCost: "Today Cost", kpiProf: "Net Profit",
+                quickProfitCalc: "⚡ Daily Revenue to Profit Calculator", todayHistory: "🕒 Today's Sales Log"
+            }
+        };
+
+        // --- SOUND FEEDBACK ---
+        let audioCtx = null;
+        function beep(freq = 850, duration = 0.04) {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.frequency.value = freq;
+                gain.gain.value = 0.04;
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {}
+        }
+
+        // --- CLOCK, THEME & LANGUAGE ---
+        function tickClock() {
+            const now = new Date();
+            const opts = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            document.getElementById('liveClock').innerText = "🕒 " + now.toLocaleDateString(currentLang === 'mm' ? 'my-MM' : 'en-US', opts);
+        }
+        setInterval(tickClock, 1000);
 
         function applyTheme() {
             document.documentElement.setAttribute('data-theme', currentTheme);
-            document.getElementById('themeBtn').innerText = currentTheme === 'dark' ? '☀️' : '🌙';
+            document.getElementById('themeToggle').innerText = currentTheme === 'dark' ? '☀️' : '🌙';
             localStorage.setItem('shwePhyoMiniMart_theme', currentTheme);
         }
 
@@ -926,12 +1002,12 @@
 
         function applyLang() {
             document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (i18n[currentLang][key]) el.innerText = i18n[currentLang][key];
+                const k = el.getAttribute('data-i18n');
+                if (dict[currentLang][k]) el.innerText = dict[currentLang][k];
             });
-            document.getElementById('langBtn').innerText = currentLang === 'mm' ? '🌐 EN' : '🌐 MM';
+            document.getElementById('langToggle').innerText = currentLang === 'mm' ? '🌐 EN' : '🌐 MM';
             localStorage.setItem('shwePhyoMiniMart_lang', currentLang);
-            updateClock();
+            tickClock();
         }
 
         function toggleLang() {
@@ -939,386 +1015,631 @@
             applyLang();
         }
 
-        // --- 5. NAVIGATION ---
-        function switchTab(tabId, btnEl) {
-            document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active'));
-            document.getElementById('tab-' + tabId).classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-            btnEl.classList.add('active');
-            if (tabId === 'profit') renderProfitTab();
+        // --- PAGE NAVIGATION ---
+        function openPage(pageId, btn) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + pageId).classList.add('active');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            if (pageId === 'finance') {
+                renderProfitReport();
+                renderCreditList();
+            } else if (pageId === 'inv') {
+                renderInventoryList();
+                renderRestockList();
+            }
+            updateFloatingCart();
         }
 
-        // --- 6. POS & CART FUNCTIONS ---
+        function switchInvSub(sub, btn) {
+            ['list', 'add', 'restock'].forEach(s => {
+                document.getElementById('inv-sub-' + s).style.display = (s === sub) ? 'block' : 'none';
+            });
+            btn.parentElement.querySelectorAll('.sub-nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function switchFinSub(sub, btn) {
+            ['profit', 'credit'].forEach(s => {
+                document.getElementById('fin-sub-' + s).style.display = (s === sub) ? 'block' : 'none';
+            });
+            btn.parentElement.querySelectorAll('.sub-nav-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        // --- POS & CART LOGIC ---
         function renderCategories() {
             const cats = ['အားလုံး', 'အထွေထွေ', 'ဆန်/ဆီ/မီးဖိုချောင်', 'မုန့်မျိုးစုံ', 'အချိုရည်/ကော်ဖီ', 'လူသုံးကုန်/ဆပ်ပြာ'];
-            const bar = document.getElementById('categoryBar');
-            bar.innerHTML = '';
+            const wrap = document.getElementById('catContainer');
+            wrap.innerHTML = '';
             cats.forEach(c => {
-                const span = document.createElement('span');
-                span.className = 'cat-chip' + (currentCat === c ? ' active' : '');
-                span.innerText = c;
-                span.onclick = () => { currentCat = c; renderCategories(); renderPOS(); };
-                bar.appendChild(span);
+                const btn = document.createElement('button');
+                btn.className = 'cat-btn' + (selectedCategory === c ? ' active' : '');
+                btn.innerText = c;
+                btn.onclick = () => {
+                    selectedCategory = c;
+                    renderCategories();
+                    renderPOSGrid();
+                };
+                wrap.appendChild(btn);
             });
         }
 
-        function renderPOS() {
-            const q = document.getElementById('posSearch').value.toLowerCase();
+        function clearSearch() {
+            document.getElementById('posSearchInput').value = '';
+            renderPOSGrid();
+        }
+
+        function renderPOSGrid() {
+            const q = document.getElementById('posSearchInput').value.trim().toLowerCase();
             const grid = document.getElementById('posGrid');
             grid.innerHTML = '';
 
-            const filtered = products.filter(p => {
-                const matchCat = currentCat === 'အားလုံး' || p.category === currentCat;
-                const matchQuery = p.name.toLowerCase().includes(q);
-                return matchCat && matchQuery;
+            const list = products.filter(p => {
+                const catMatch = selectedCategory === 'အားလုံး' || p.category === selectedCategory;
+                const nameMatch = String(p.name).toLowerCase().includes(q);
+                return catMatch && nameMatch;
             });
 
-            if (filtered.length === 0) {
-                grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:25px; color:var(--text-muted);">ပစ္စည်းမရှိသေးပါ။ "ပစ္စည်းစာရင်း" Tab တွင် အသစ်ထည့်ပါ။</div>`;
+            if (list.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 35px 15px; color: var(--text-sub);">ပစ္စည်းရှာမတွေ့ပါ။ "📦 ပစ္စည်းများ" နေရာတွင် အသစ်ထည့်သွင်းနိုင်ပါသည်။</div>`;
                 return;
             }
 
-            filtered.forEach(p => {
+            list.forEach(p => {
                 const card = document.createElement('div');
-                card.className = 'pos-item';
-                card.onclick = () => addToCart(p);
+                card.className = 'prod-card';
+                card.onclick = () => addItemToCart(p.id);
                 card.innerHTML = `
-                    <div>
-                        <div class="pos-item-cat">${p.category || 'အထွေထွေ'} • ${p.unit || '၁ ခု'}</div>
-                        <div class="pos-item-name">${p.name}</div>
+                    <div class="prod-title">${escapeHTML(p.name)}</div>
+                    <div class="prod-bottom">
+                        <span class="prod-price">${Number(p.price).toLocaleString()} Ks</span>
+                        <span class="prod-unit">${escapeHTML(p.unit || '၁ ခု')}</span>
                     </div>
-                    <div class="pos-item-price">${Number(p.price).toLocaleString()} Ks</div>
                 `;
                 grid.appendChild(card);
             });
         }
 
-        function addToCart(prod) {
-            playBeep();
-            const existing = cart.find(c => c.id === prod.id);
-            if (existing) {
-                existing.qty += 1;
+        function addItemToCart(prodId) {
+            const prod = products.find(p => p.id === prodId);
+            if (!prod) return;
+            beep(900, 0.04);
+            const found = cart.find(c => c.id === prodId);
+            if (found) {
+                found.qty += 1;
             } else {
                 cart.push({ ...prod, qty: 1 });
             }
-            renderCart();
+            updateFloatingCart();
         }
 
-        function changeQty(id, delta) {
+        function getCartSum() {
+            return cart.reduce((s, item) => s + (Number(item.price) * item.qty), 0);
+        }
+
+        function getCartCount() {
+            return cart.reduce((s, item) => s + item.qty, 0);
+        }
+
+        function updateFloatingCart() {
+            const bar = document.getElementById('floatingCartBar');
+            const isPosActive = document.getElementById('page-pos').classList.contains('active');
+            if (cart.length > 0 && isPosActive) {
+                bar.classList.add('show');
+                document.getElementById('floatCartCount').innerText = `🛒 ${getCartCount()} ခု`;
+                document.getElementById('floatCartTotal').innerText = `${getCartSum().toLocaleString()} Ks ➔`;
+            } else {
+                bar.classList.remove('show');
+            }
+        }
+
+        function openCheckoutDrawer() {
+            renderDrawerCart();
+            document.getElementById('checkoutDrawer').classList.add('open');
+        }
+
+        function closeCheckoutDrawer() {
+            document.getElementById('checkoutDrawer').classList.remove('open');
+            updateFloatingCart();
+        }
+
+        function renderDrawerCart() {
+            const wrap = document.getElementById('drawerCartItems');
+            wrap.innerHTML = '';
+            if (cart.length === 0) {
+                closeCheckoutDrawer();
+                return;
+            }
+
+            cart.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'list-row';
+                row.innerHTML = `
+                    <div style="flex: 1;">
+                        <div style="font-weight: 700; font-size: 14px;">${escapeHTML(item.name)}</div>
+                        <div style="font-size: 12px; color: var(--text-sub);">${Number(item.price).toLocaleString()} Ks × ${item.qty}</div>
+                    </div>
+                    <div class="qty-box">
+                        <button class="qty-btn" onclick="updateCartQty(${item.id}, -1)">−</button>
+                        <span style="font-weight: 800; min-width: 22px; text-align: center;">${item.qty}</span>
+                        <button class="qty-btn" onclick="updateCartQty(${item.id}, 1)">+</button>
+                        <span style="font-weight: 800; min-width: 75px; text-align: right; color: var(--primary);">${(item.price * item.qty).toLocaleString()} Ks</span>
+                    </div>
+                `;
+                wrap.appendChild(row);
+            });
+
+            document.getElementById('drawerTotal').innerText = getCartSum().toLocaleString() + ' Ks';
+            updateChangeCalc();
+        }
+
+        function updateCartQty(id, delta) {
             const item = cart.find(c => c.id === id);
             if (!item) return;
             item.qty += delta;
-            if (item.qty <= 0) cart = cart.filter(c => c.id !== id);
-            renderCart();
-        }
-
-        function clearCart() {
-            cart = [];
-            document.getElementById('cashReceived').value = '';
-            renderCart();
-        }
-
-        function getCartTotal() {
-            return cart.reduce((sum, i) => sum + (Number(i.price) * i.qty), 0);
-        }
-
-        function renderCart() {
-            const list = document.getElementById('cartList');
-            list.innerHTML = '';
-            if (cart.length === 0) {
-                list.innerHTML = `<div style="text-align:center; padding:12px; color:var(--text-muted); font-size:13px;">အောက်မှ ပစ္စည်းများကို နှိပ်ပြီး ဘောင်ချာဖွင့်ပါ</div>`;
-            } else {
-                cart.forEach(item => {
-                    const row = document.createElement('div');
-                    row.className = 'cart-row';
-                    row.innerHTML = `
-                        <div style="flex:1;">
-                            <div style="font-weight:700;">${item.name}</div>
-                            <div style="font-size:12px; color:var(--text-muted);">${Number(item.price).toLocaleString()} Ks × ${item.qty}</div>
-                        </div>
-                        <div class="qty-controls">
-                            <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
-                            <span style="font-weight:700; min-width:20px; text-align:center;">${item.qty}</span>
-                            <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
-                            <span style="font-weight:700; min-width:75px; text-align:right;">${(item.price * item.qty).toLocaleString()} Ks</span>
-                        </div>
-                    `;
-                    list.appendChild(row);
-                });
+            if (item.qty <= 0) {
+                cart = cart.filter(c => c.id !== id);
             }
-            document.getElementById('cartTotal').innerText = getCartTotal().toLocaleString();
-            calculateChange();
+            renderDrawerCart();
+            updateFloatingCart();
         }
 
-        function setQuickCash(val) {
-            const total = getCartTotal();
-            const input = document.getElementById('cashReceived');
+        function fillQuickCash(val) {
+            const total = getCartSum();
+            const inp = document.getElementById('inpCashReceived');
             if (val === 'exact') {
-                input.value = total;
+                inp.value = total;
             } else {
-                input.value = (Number(input.value) || 0) + val;
+                inp.value = (Number(inp.value) || 0) + val;
             }
-            calculateChange();
+            updateChangeCalc();
         }
 
-        function calculateChange() {
-            const total = getCartTotal();
-            const cash = Number(document.getElementById('cashReceived').value) || 0;
-            const change = cash - total;
-            document.getElementById('changeAmount').innerText = change >= 0 ? change.toLocaleString() : '0';
+        function updateChangeCalc() {
+            const total = getCartSum();
+            const paid = Number(document.getElementById('inpCashReceived').value) || 0;
+            const change = paid - total;
+            document.getElementById('drawerChange').innerText = (change >= 0 ? change.toLocaleString() : '0') + ' Ks';
         }
 
-        function completeSale() {
-            if (cart.length === 0) {
-                alert("ဘောင်ချာထဲတွင် ပစ္စည်းမရှိသေးပါ။");
-                return;
-            }
-            const totalRevenue = getCartTotal();
-            const totalCost = cart.reduce((sum, i) => sum + ((Number(i.cost) || 0) * i.qty), 0);
-            const profit = totalRevenue - totalCost;
+        function clearCartAll() {
+            cart = [];
+            document.getElementById('inpCashReceived').value = '';
+            closeCheckoutDrawer();
+        }
+
+        function confirmCheckout() {
+            if (cart.length === 0) return;
+            const rev = getCartSum();
+            const cost = cart.reduce((s, i) => s + ((Number(i.cost) || 0) * i.qty), 0);
+            const profit = rev - cost;
 
             salesLog.unshift({
                 id: Date.now(),
                 time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-                items: cart.map(i => `${i.name} (x${i.qty})`).join(', '),
-                revenue: totalRevenue,
-                cost: totalCost,
+                summary: cart.map(i => `${i.name} x${i.qty}`).join(', '),
+                revenue: rev,
+                cost: cost,
                 profit: profit
             });
 
-            localStorage.setItem('shwePhyoMiniMart_sales', JSON.stringify(salesLog));
-            clearCart();
-            playBeep();
-            alert(`ရောင်းချမှု မှတ်တမ်းတင်ပြီးပါပြီ!\nရောင်းရငွေ: ${totalRevenue.toLocaleString()} Ks`);
+            saveStorage('shwePhyoMiniMart_sales', salesLog);
+            beep(1100, 0.08);
+            clearCartAll();
+            alert(`ရောင်းချမှု မှတ်တမ်းတင်ပြီးပါပြီ!\nကျသင့်ငွေ: ${rev.toLocaleString()} Ks`);
         }
 
-        // --- 7. INVENTORY FUNCTIONS ---
-        function saveProduct() {
-            const name = document.getElementById('prodName').value.trim();
-            const category = document.getElementById('prodCat').value;
-            const unit = document.getElementById('prodUnit').value.trim() || '၁ ခု';
-            const price = Number(document.getElementById('prodPrice').value);
-            const costInput = document.getElementById('prodCost').value;
-            const cost = costInput ? Number(costInput) : Math.round(price * 0.85);
+        // --- REAL PHYSICAL CALCULATOR (ERROR-PROOF) ---
+        let calcTokens = '';
 
-            if (!name || !price) {
-                alert("ပစ္စည်းအမည်နှင့် ရောင်းဈေး ထည့်သွင်းပေးပါ။");
+        function safeEvaluateMath(expr) {
+            if (!expr) return 0;
+            // Remove trailing operators before evaluating
+            const cleanExpr = expr.replace(/[+\-*/%]+$/, '');
+            if (!cleanExpr) return 0;
+            try {
+                const normalized = cleanExpr.replace(/%/g, '/100');
+                const result = Function('"use strict"; return (' + normalized + ')')();
+                return isFinite(result) ? result : 0;
+            } catch (e) {
+                return 0;
+            }
+        }
+
+        function pressCalc(key) {
+            beep(650, 0.025);
+            const histEl = document.getElementById('calcHistory');
+            const dispEl = document.getElementById('calcDisplay');
+            const operators = ['+', '-', '*', '/'];
+
+            if (key === 'AC') {
+                calcTokens = '';
+                histEl.innerText = '0';
+                dispEl.innerText = '0';
                 return;
             }
 
-            if (editingId) {
-                products = products.map(p => p.id === editingId ? { ...p, name, category, unit, cost, price } : p);
-                editingId = null;
-                document.getElementById('saveProdBtn').innerText = "💾 စာရင်းသိမ်းမည်";
+            if (key === 'DEL') {
+                calcTokens = calcTokens.slice(0, -1);
+                histEl.innerText = formatCalcExpr(calcTokens) || '0';
+                const val = safeEvaluateMath(calcTokens);
+                dispEl.innerText = Number(val.toFixed(2)).toLocaleString();
+                return;
+            }
+
+            if (key === '=') {
+                const finalVal = safeEvaluateMath(calcTokens);
+                histEl.innerText = (formatCalcExpr(calcTokens) || '0') + ' =';
+                dispEl.innerText = Number(finalVal.toFixed(2)).toLocaleString();
+                calcTokens = finalVal > 0 ? String(Number(finalVal.toFixed(2))) : '';
+                return;
+            }
+
+            // Prevent multiple consecutive operators
+            const lastChar = calcTokens.slice(-1);
+            if (operators.includes(key)) {
+                if (!calcTokens) return;
+                if (operators.includes(lastChar)) {
+                    calcTokens = calcTokens.slice(0, -1) + key;
+                } else {
+                    calcTokens += key;
+                }
+            } else {
+                // Prevent leading zeros
+                if (calcTokens === '0' && (key === '0' || key === '00' || key === '000')) return;
+                if (!calcTokens && (key === '00' || key === '000')) {
+                    calcTokens = '0';
+                } else {
+                    calcTokens += key;
+                }
+            }
+
+            histEl.innerText = formatCalcExpr(calcTokens);
+            const liveVal = safeEvaluateMath(calcTokens);
+            dispEl.innerText = Number(liveVal.toFixed(2)).toLocaleString();
+        }
+
+        function formatCalcExpr(str) {
+            return str.replace(/\*/g, ' × ').replace(/\//g, ' ÷ ').replace(/\+/g, ' + ').replace(/\-/g, ' − ');
+        }
+
+        function getCalcCurrentValue() {
+            return Math.round(safeEvaluateMath(calcTokens));
+        }
+
+        function sendCalcToBill() {
+            const amount = getCalcCurrentValue();
+            if (amount <= 0) {
+                alert("ပမာဏ တွက်ချက်ထားခြင်း မရှိသေးပါ။");
+                return;
+            }
+            cart.push({
+                id: Date.now(),
+                name: "တွက်စက်မှ ပေါင်းထည့်ငွေ",
+                category: "အထွေထွေ",
+                unit: "၁ ခု",
+                cost: Math.round(amount * 0.85),
+                price: amount,
+                qty: 1
+            });
+            pressCalc('AC');
+            openPage('pos', document.getElementById('nav-pos'));
+            openCheckoutDrawer();
+        }
+
+        function quickSaleFromCalc() {
+            const amount = getCalcCurrentValue();
+            if (amount <= 0) {
+                alert("ပမာဏ တွက်ချက်ထားခြင်း မရှိသေးပါ။");
+                return;
+            }
+            const cost = Math.round(amount * 0.85);
+            salesLog.unshift({
+                id: Date.now(),
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                summary: "⚡ တွက်စက်မှ တိုက်ရိုက်ရောင်းချမှု",
+                revenue: amount,
+                cost: cost,
+                profit: amount - cost
+            });
+            saveStorage('shwePhyoMiniMart_sales', salesLog);
+            pressCalc('AC');
+            beep(1100, 0.08);
+            alert(`တိုက်ရိုက်ရောင်းချမှု မှတ်တမ်းတင်ပြီးပါပြီ!\nပမာဏ: ${amount.toLocaleString()} Ks`);
+        }
+
+        // --- INVENTORY & RESTOCK FUNCTIONS ---
+        function saveProductItem() {
+            const name = document.getElementById('inpProdName').value.trim();
+            const category = document.getElementById('inpProdCat').value;
+            const unit = document.getElementById('inpProdUnit').value.trim() || '၁ ခု';
+            const price = Number(document.getElementById('inpProdPrice').value);
+            const rawCost = document.getElementById('inpProdCost').value;
+            const cost = rawCost ? Number(rawCost) : Math.round(price * 0.85);
+
+            if (!name || price <= 0) {
+                alert("ပစ္စည်းအမည်နှင့် ရောင်းဈေးကို မှန်ကန်စွာ ထည့်ပါ။");
+                return;
+            }
+
+            if (editingProdId) {
+                products = products.map(p => p.id === editingProdId ? { ...p, name, category, unit, cost, price } : p);
+                editingProdId = null;
+                document.getElementById('prodFormHeader').innerText = "➕ ပစ္စည်းအသစ် ထည့်သွင်းရန်";
+                document.getElementById('btnSaveProd').innerText = "💾 စာရင်းသိမ်းမည်";
             } else {
                 products.unshift({ id: Date.now(), name, category, unit, cost, price });
             }
 
-            localStorage.setItem('shwePhyoMiniMart_products', JSON.stringify(products));
-            document.getElementById('prodName').value = '';
-            document.getElementById('prodUnit').value = '';
-            document.getElementById('prodCost').value = '';
-            document.getElementById('prodPrice').value = '';
-            renderInventory();
-            renderPOS();
+            saveStorage('shwePhyoMiniMart_products', products);
+            document.getElementById('inpProdName').value = '';
+            document.getElementById('inpProdUnit').value = '';
+            document.getElementById('inpProdCost').value = '';
+            document.getElementById('inpProdPrice').value = '';
+
+            renderInventoryList();
+            renderPOSGrid();
+            switchInvSub('list', document.querySelector('#page-inv .sub-nav-btn'));
         }
 
-        function editProduct(id) {
-            const p = products.find(item => item.id === id);
-            if (!p) return;
-            editingId = id;
-            document.getElementById('prodName').value = p.name;
-            document.getElementById('prodCat').value = p.category || 'အထွေထွေ';
-            document.getElementById('prodUnit').value = p.unit || '၁ ခု';
-            document.getElementById('prodCost').value = p.cost || 0;
-            document.getElementById('prodPrice').value = p.price || 0;
-            document.getElementById('saveProdBtn').innerText = "✏️ ပြင်ဆင်မှု သိမ်းမည်";
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function startEditProduct(id) {
+            const prod = products.find(p => p.id === id);
+            if (!prod) return;
+            editingProdId = id;
+            document.getElementById('inpProdName').value = prod.name;
+            document.getElementById('inpProdCat').value = prod.category || 'အထွေထွေ';
+            document.getElementById('inpProdUnit').value = prod.unit || '၁ ခု';
+            document.getElementById('inpProdCost').value = prod.cost || 0;
+            document.getElementById('inpProdPrice').value = prod.price || 0;
+
+            document.getElementById('prodFormHeader').innerText = "✏️ ပစ္စည်းအချက်အလက် ပြင်ဆင်ရန်";
+            document.getElementById('btnSaveProd').innerText = "💾 ပြင်ဆင်မှု သိမ်းမည်";
+            switchInvSub('add', document.getElementById('subAddBtn'));
         }
 
-        function deleteProduct(id) {
-            if (confirm("ဒီပစ္စည်းကို ဖျက်မှာ သေချာပါသလား?")) {
+        function removeProductItem(id) {
+            if (confirm("ဒီပစ္စည်းကို စာရင်းမှ ဖျက်မှာ သေချာပါသလား?")) {
                 products = products.filter(p => p.id !== id);
-                localStorage.setItem('shwePhyoMiniMart_products', JSON.stringify(products));
-                renderInventory();
-                renderPOS();
+                saveStorage('shwePhyoMiniMart_products', products);
+                renderInventoryList();
+                renderPOSGrid();
             }
         }
 
-        function renderInventory() {
-            const q = document.getElementById('invSearch').value.toLowerCase();
-            const list = document.getElementById('invList');
-            list.innerHTML = '';
-            document.getElementById('invCount').innerText = `${products.length} မျိုး`;
+        function addProdToRestock(id) {
+            const prod = products.find(p => p.id === id);
+            if (!prod) return;
+            if (!restockList.some(r => r.text === prod.name)) {
+                restockList.unshift({ id: Date.now(), text: prod.name });
+                saveStorage('shwePhyoMiniMart_restock', restockList);
+            }
+            beep(950, 0.05);
+            alert(`"${prod.name}" ကို ဝယ်ရန်စာရင်းထဲ ထည့်ပြီးပါပြီ။`);
+            renderRestockList();
+        }
 
-            const filtered = products.filter(p => p.name.toLowerCase().includes(q));
+        function renderInventoryList() {
+            const q = document.getElementById('invSearchInput').value.trim().toLowerCase();
+            const wrap = document.getElementById('invListContainer');
+            wrap.innerHTML = '';
+            document.getElementById('totalProdCount').innerText = `စုစုပေါင်း ${products.length} မျိုး`;
+
+            const filtered = products.filter(p => String(p.name).toLowerCase().includes(q));
             filtered.forEach(p => {
-                const itemProfit = Number(p.price) - Number(p.cost || 0);
-                const div = document.createElement('div');
-                div.className = 'inv-item';
-                div.innerHTML = `
-                    <div>
-                        <div style="font-weight:700; font-size:15px;">${p.name} <span style="font-size:12px; color:var(--text-muted);">(${p.unit || '၁ ခု'})</span></div>
-                        <div class="inv-meta">
-                            အရင်း: ${Number(p.cost || 0).toLocaleString()} Ks | 
-                            <strong style="color:var(--primary);">ရောင်းဈေး: ${Number(p.price).toLocaleString()} Ks</strong> | 
-                            အမြတ်: +${itemProfit.toLocaleString()} Ks
+                const margin = Number(p.price) - Number(p.cost || 0);
+                const row = document.createElement('div');
+                row.className = 'list-row';
+                row.innerHTML = `
+                    <div style="flex: 1;">
+                        <div style="font-weight: 700; font-size: 15px;">${escapeHTML(p.name)} <span style="font-size: 11px; color: var(--text-sub);">(${escapeHTML(p.unit || '၁ ခု')})</span></div>
+                        <div style="font-size: 12px; color: var(--text-sub); margin-top: 4px;">
+                            ရောင်းဈေး: <strong style="color: var(--primary);">${Number(p.price).toLocaleString()} Ks</strong> | အမြတ်: +${margin.toLocaleString()} Ks
                         </div>
                     </div>
-                    <div style="display:flex; gap:6px;">
-                        <button class="icon-btn" onclick="editProduct(${p.id})">✏️</button>
-                        <button class="icon-btn" style="color:var(--danger);" onclick="deleteProduct(${p.id})">🗑️</button>
+                    <div style="display: flex; gap: 6px;">
+                        <button class="pill-btn" title="ဝယ်ရန်မှတ်မည်" onclick="addProdToRestock(${p.id})">🛒+</button>
+                        <button class="pill-btn" onclick="startEditProduct(${p.id})">✏️</button>
+                        <button class="pill-btn" style="color: var(--danger);" onclick="removeProductItem(${p.id})">🗑️</button>
                     </div>
                 `;
-                list.appendChild(div);
+                wrap.appendChild(row);
             });
         }
 
-        // --- 8. PROFIT & REPORTS ---
-        function renderProfitTab() {
-            const rev = salesLog.reduce((s, l) => s + l.revenue, 0);
-            const cost = salesLog.reduce((s, l) => s + l.cost, 0);
-            const prof = salesLog.reduce((s, l) => s + l.profit, 0);
+        function addManualRestock() {
+            const inp = document.getElementById('inpRestockText');
+            const val = inp.value.trim();
+            if (!val) return;
+            restockList.unshift({ id: Date.now(), text: val });
+            saveStorage('shwePhyoMiniMart_restock', restockList);
+            inp.value = '';
+            renderRestockList();
+        }
 
-            document.getElementById('statRevenue').innerText = rev.toLocaleString() + ' Ks';
-            document.getElementById('statCost').innerText = cost.toLocaleString() + ' Ks';
-            document.getElementById('statProfit').innerText = '+' + prof.toLocaleString() + ' Ks';
+        function removeRestockItem(id) {
+            restockList = restockList.filter(r => r.id !== id);
+            saveStorage('shwePhyoMiniMart_restock', restockList);
+            renderRestockList();
+        }
 
-            const logContainer = document.getElementById('salesLogList');
-            logContainer.innerHTML = '';
+        function renderRestockList() {
+            const wrap = document.getElementById('restockContainer');
+            wrap.innerHTML = '';
+            if (restockList.length === 0) {
+                wrap.innerHTML = `<div style="text-align: center; padding: 15px; color: var(--text-sub); font-size: 13px;">ထပ်ဝယ်ရန် မှတ်ထားသော ပစ္စည်းမရှိသေးပါ</div>`;
+                return;
+            }
+            restockList.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'list-row';
+                row.innerHTML = `
+                    <span style="font-weight: 700;">🛒 ${escapeHTML(item.text)}</span>
+                    <button class="pill-btn" style="color: var(--primary);" onclick="removeRestockItem(${item.id})">✅ ဝယ်ပြီး</button>
+                `;
+                wrap.appendChild(row);
+            });
+        }
+
+        // --- PROFIT & CREDIT BOOK FUNCTIONS ---
+        function renderProfitReport() {
+            const rev = salesLog.reduce((s, l) => s + (Number(l.revenue) || 0), 0);
+            const cost = salesLog.reduce((s, l) => s + (Number(l.cost) || 0), 0);
+            const prof = salesLog.reduce((s, l) => s + (Number(l.profit) || 0), 0);
+
+            document.getElementById('kpiRevenue').innerText = rev.toLocaleString() + ' Ks';
+            document.getElementById('kpiCost').innerText = cost.toLocaleString() + ' Ks';
+            document.getElementById('kpiProfit').innerText = '+' + prof.toLocaleString() + ' Ks';
+
+            const wrap = document.getElementById('salesHistoryList');
+            wrap.innerHTML = '';
             if (salesLog.length === 0) {
-                logContainer.innerHTML = `<div style="text-align:center; padding:15px; color:var(--text-muted); font-size:13px;">ယနေ့ အရောင်းမှတ်တမ်း မရှိသေးပါ</div>`;
+                wrap.innerHTML = `<div style="text-align: center; padding: 15px; color: var(--text-sub); font-size: 13px;">ယနေ့ အရောင်းမှတ်တမ်း မရှိသေးပါ</div>`;
                 return;
             }
             salesLog.forEach(log => {
-                const div = document.createElement('div');
-                div.className = 'inv-item';
-                div.innerHTML = `
-                    <div style="flex:1;">
-                        <div style="font-size:13px; font-weight:700;">🕒 ${log.time} — ${log.items}</div>
-                        <div class="inv-meta">ရောင်းရငွေ: ${log.revenue.toLocaleString()} Ks | အမြတ်: <span style="color:var(--primary); font-weight:700;">+${log.profit.toLocaleString()} Ks</span></div>
+                const row = document.createElement('div');
+                row.className = 'list-row';
+                row.innerHTML = `
+                    <div>
+                        <div style="font-weight: 700; font-size: 13px;">🕒 ${escapeHTML(log.time)} — ${escapeHTML(log.summary || log.items)}</div>
+                        <div style="font-size: 12px; color: var(--text-sub); margin-top: 3px;">
+                            ရောင်းရငွေ: ${Number(log.revenue).toLocaleString()} Ks | အမြတ်: <strong style="color: var(--primary);">+${Number(log.profit).toLocaleString()} Ks</strong>
+                        </div>
                     </div>
                 `;
-                logContainer.appendChild(div);
+                wrap.appendChild(row);
             });
         }
 
-        function calcManualProfit() {
-            const rev = Number(document.getElementById('manualRev').value) || 0;
-            const margin = Number(document.getElementById('manualMargin').value) || 0;
-            const profit = Math.round(rev * (margin / 100));
+        function calcDailyMargin() {
+            const rev = Number(document.getElementById('inpDailyRev').value) || 0;
+            const pct = Number(document.getElementById('inpDailyPct').value) || 0;
+            const profit = Math.round(rev * (pct / 100));
             const cost = rev - profit;
-            document.getElementById('manualCostOut').innerText = cost.toLocaleString() + ' Ks';
-            document.getElementById('manualProfitOut').innerText = '+' + profit.toLocaleString() + ' Ks';
+            document.getElementById('outEstCost').innerText = cost.toLocaleString() + ' Ks';
+            document.getElementById('outEstProfit').innerText = '+' + profit.toLocaleString() + ' Ks';
         }
 
-        function clearSalesLog() {
-            if (confirm("ယနေ့ အရောင်းမှတ်တမ်းများကို အသစ်ပြန်စရန် ဖျက်မှာ သေချာပါသလား?")) {
+        function resetDailySales() {
+            if (confirm("ယနေ့ အရောင်းမှတ်တမ်းအားလုံးကို ရှင်းလင်းမှာ သေချာပါသလား?")) {
                 salesLog = [];
-                localStorage.setItem('shwePhyoMiniMart_sales', JSON.stringify(salesLog));
-                renderProfitTab();
+                saveStorage('shwePhyoMiniMart_sales', salesLog);
+                renderProfitReport();
             }
         }
 
-        // --- 9. BUILT-IN CALCULATOR ---
-        let calcStr = '';
-        function toggleCalc() {
-            document.getElementById('calcModal').classList.toggle('show');
+        function addCreditRecord() {
+            const name = document.getElementById('creditName').value.trim();
+            const amount = Number(document.getElementById('creditAmount').value);
+            const note = document.getElementById('creditNote').value.trim() || 'ကုန်ပစ္စည်း';
+
+            if (!name || amount <= 0) {
+                alert("ဝယ်သူအမည်နှင့် အကြွေးပမာဏ ထည့်သွင်းပါ။");
+                return;
+            }
+
+            creditList.unshift({
+                id: Date.now(),
+                name,
+                amount,
+                note,
+                date: new Date().toLocaleDateString('my-MM', { month: 'short', day: 'numeric' })
+            });
+
+            saveStorage('shwePhyoMiniMart_credits', creditList);
+            document.getElementById('creditName').value = '';
+            document.getElementById('creditAmount').value = '';
+            document.getElementById('creditNote').value = '';
+            renderCreditList();
         }
 
-        function calcInput(val) {
-            const expEl = document.getElementById('calcExp');
-            const resEl = document.getElementById('calcRes');
-
-            if (val === 'C') {
-                calcStr = '';
-                expEl.innerText = '';
-                resEl.innerText = '0';
-            } else if (val === 'DEL') {
-                calcStr = calcStr.slice(0, -1);
-                expEl.innerText = calcStr;
-            } else if (val === '=') {
-                try {
-                    const ans = Function('"use strict";return (' + (calcStr || '0') + ')')();
-                    resEl.innerText = Number(ans.toFixed(2)).toLocaleString();
-                    calcStr = String(ans);
-                } catch (e) {
-                    resEl.innerText = 'Error';
-                }
-            } else {
-                calcStr += val;
-                expEl.innerText = calcStr;
-                try {
-                    const liveAns = Function('"use strict";return (' + calcStr + ')')();
-                    if (!isNaN(liveAns)) resEl.innerText = Number(liveAns.toFixed(2)).toLocaleString();
-                } catch (e) {}
+        function settleCredit(id) {
+            if (confirm("ဒီအကြွေးကို ရှင်းပြီးကြောင်း မှတ်သားမည်လား?")) {
+                creditList = creditList.filter(c => c.id !== id);
+                saveStorage('shwePhyoMiniMart_credits', creditList);
+                renderCreditList();
             }
         }
 
-        function addCalcResultToCart() {
-            const rawText = document.getElementById('calcRes').innerText.replace(/,/g, '');
-            const price = Number(rawText);
-            if (price > 0) {
-                addToCart({
-                    id: Date.now(),
-                    name: "အထွေထွေ တွက်ချက်မှု (Custom)",
-                    category: "အထွေထွေ",
-                    unit: "၁ ခု",
-                    cost: Math.round(price * 0.85),
-                    price: price
-                });
-                toggleCalc();
-                calcInput('C');
+        function renderCreditList() {
+            const wrap = document.getElementById('creditListContainer');
+            wrap.innerHTML = '';
+            const total = creditList.reduce((s, c) => s + (Number(c.amount) || 0), 0);
+            document.getElementById('totalCreditSum').innerText = total.toLocaleString() + ' Ks';
+
+            if (creditList.length === 0) {
+                wrap.innerHTML = `<div style="text-align: center; padding: 15px; color: var(--text-sub); font-size: 13px;">အကြွေးစာရင်း မရှိပါ</div>`;
+                return;
             }
+
+            creditList.forEach(c => {
+                const row = document.createElement('div');
+                row.className = 'list-row';
+                row.innerHTML = `
+                    <div>
+                        <div style="font-weight: 700; font-size: 14px;">👤 ${escapeHTML(c.name)} <span style="font-size: 11px; color: var(--text-sub);">(${escapeHTML(c.date)})</span></div>
+                        <div style="font-size: 12px; color: var(--text-sub); margin-top: 2px;">${escapeHTML(c.note)} — <strong style="color: var(--warning);">${Number(c.amount).toLocaleString()} Ks</strong></div>
+                    </div>
+                    <button class="pill-btn" style="color: var(--primary);" onclick="settleCredit(${c.id})">✅ ရှင်းပြီး</button>
+                `;
+                wrap.appendChild(row);
+            });
         }
 
-        // --- 10. GOOGLE MAPS & BACKUP ---
-        function updateMapLinks() {
-            document.getElementById('mapUrlInput').value = mapUrl;
-            document.getElementById('topMapLink').href = mapUrl;
-            document.getElementById('openMapBtn').href = mapUrl;
+        // --- SETTINGS & BACKUP ---
+        function refreshMapLinks() {
+            document.getElementById('inpMapUrl').value = mapUrl;
+            document.getElementById('headerMapLink').href = mapUrl;
+            document.getElementById('btnOpenMap').href = mapUrl;
         }
 
-        function saveMapUrl() {
-            const val = document.getElementById('mapUrlInput').value.trim();
+        function saveMapSetting() {
+            const val = document.getElementById('inpMapUrl').value.trim();
             if (val) {
                 mapUrl = val;
                 localStorage.setItem('shwePhyoMiniMart_map', mapUrl);
-                updateMapLinks();
+                refreshMapLinks();
                 alert("Google Maps လင့်ခ်ကို သိမ်းဆည်းပြီးပါပြီ။");
             }
         }
 
-        function exportBackup() {
-            const data = { products, salesLog, mapUrl };
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+        function downloadBackup() {
+            const payload = { products, salesLog, creditList, restockList, mapUrl };
+            const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `shwephyoeain_minimart_backup_${new Date().toISOString().slice(0,10)}.json`;
+            a.download = `shwephyoeain_backup_${new Date().toISOString().slice(0, 10)}.json`;
             a.click();
         }
 
-        function importBackup(e) {
+        function uploadBackup(e) {
             const file = e.target.files[0];
             if (!file) return;
             const reader = new FileReader();
             reader.onload = function(evt) {
                 try {
-                    const parsed = JSON.parse(evt.target.result);
-                    if (Array.isArray(parsed)) {
-                        products = parsed;
-                    } else if (parsed.products) {
-                        products = parsed.products;
-                        salesLog = parsed.salesLog || [];
-                        mapUrl = parsed.mapUrl || mapUrl;
+                    const data = JSON.parse(evt.target.result);
+                    if (Array.isArray(data)) {
+                        products = data;
+                    } else if (data && typeof data === 'object') {
+                        if (Array.isArray(data.products)) products = data.products;
+                        if (Array.isArray(data.salesLog)) salesLog = data.salesLog;
+                        if (Array.isArray(data.creditList)) creditList = data.creditList;
+                        if (Array.isArray(data.restockList)) restockList = data.restockList;
+                        if (data.mapUrl) mapUrl = data.mapUrl;
                     }
-                    localStorage.setItem('shwePhyoMiniMart_products', JSON.stringify(products));
-                    localStorage.setItem('shwePhyoMiniMart_sales', JSON.stringify(salesLog));
+                    saveStorage('shwePhyoMiniMart_products', products);
+                    saveStorage('shwePhyoMiniMart_sales', salesLog);
+                    saveStorage('shwePhyoMiniMart_credits', creditList);
+                    saveStorage('shwePhyoMiniMart_restock', restockList);
                     localStorage.setItem('shwePhyoMiniMart_map', mapUrl);
-                    renderPOS();
-                    renderInventory();
-                    updateMapLinks();
+
+                    renderPOSGrid();
+                    renderInventoryList();
+                    refreshMapLinks();
                     alert("Data အားလုံး အောင်မြင်စွာ ပြန်သွင်းပြီးပါပြီ!");
                 } catch (err) {
                     alert("ဖိုင်မှားယွင်းနေပါသည်။");
@@ -1327,15 +1648,14 @@
             reader.readAsText(file);
         }
 
-        // --- INIT ---
+        // --- INITIALIZE APP ---
         applyTheme();
         applyLang();
-        updateClock();
-        updateMapLinks();
+        tickClock();
+        refreshMapLinks();
         renderCategories();
-        renderPOS();
-        renderCart();
-        renderInventory();
+        renderPOSGrid();
+        renderInventoryList();
     </script>
 </body>
 </html>
