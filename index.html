@@ -2,15 +2,25 @@
 <html lang="my">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ရွှေဖြိုးအိမ် - ဈေးနှုန်းမှတ်တမ်း</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ရွှေဖြိုးအိမ် - PRO Database</title>
     <style>
+        :root {
+            --neon-cyan: #00ffcc;
+            --neon-pink: #ff2a6d;
+            --dark-bg: #090a0f;
+            --glass-bg: rgba(25, 26, 35, 0.7);
+        }
         body {
-            background-color: #0d0d0d;
-            color: #ffffff;
-            font-family: sans-serif;
+            background-color: var(--dark-bg);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(0, 255, 204, 0.05), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(255, 42, 109, 0.05), transparent 25%);
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 15px;
+            min-height: 100vh;
         }
         .container {
             max-width: 500px;
@@ -18,152 +28,164 @@
         }
         h2 {
             text-align: center;
-            color: #00ffcc;
-            text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
-            margin-bottom: 25px;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            font-size: 22px;
         }
-        
-        /* ပစ္စည်းအသစ်ထည့်ရန် Box */
-        .add-box {
-            background-color: #1a1a1a;
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #333;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        .input-group {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-        .add-box h3 {
-            margin: 0 0 10px 0;
-            font-size: 16px;
-            color: #ff2a6d;
-        }
-        .input-field {
+        input {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 12px;
-            background-color: #0d0d0d;
-            border: 1px solid #333;
+            border-radius: 8px;
             color: #fff;
-            border-radius: 5px;
-            font-size: 14px;
+            font-size: 15px;
+            transition: all 0.3s;
+            width: 100%;
+            box-sizing: border-box;
         }
-        .input-field:focus {
+        input:focus {
             outline: none;
-            border-color: #ff2a6d;
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
         }
-        .add-btn {
-            background-color: #ff2a6d;
-            color: #fff;
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+        button {
             border: none;
             padding: 12px;
-            border-radius: 5px;
+            border-radius: 8px;
+            color: white;
             font-weight: bold;
-            font-size: 14px;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(255, 42, 109, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            flex: 1;
+            font-size: 14px;
         }
-        .add-btn:active {
-            transform: scale(0.98);
+        button:active { transform: scale(0.95); }
+        .add-btn {
+            background: linear-gradient(45deg, #ff2a6d, #ff5e8e);
+            box-shadow: 0 4px 15px rgba(255, 42, 109, 0.3);
         }
-
-        /* ရှာဖွေရန် Box */
+        .backup-btn {
+            background: rgba(0, 255, 204, 0.15);
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+        }
         .search-box {
-            width: 100%;
-            padding: 15px;
-            box-sizing: border-box;
-            background-color: #1a1a1a;
-            border: 2px solid #333;
-            color: #00ffcc;
-            border-radius: 10px;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-        .search-box:focus {
-            outline: none;
-            border-color: #00ffcc;
-            box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
-        }
-
-        /* ဈေးနှုန်းပြသမည့်စာရင်း */
-        .results {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            border-color: rgba(0, 255, 204, 0.3);
+            margin-bottom: 15px;
         }
         .item {
-            background-color: #1a1a1a;
-            padding: 15px;
+            background: rgba(0, 0, 0, 0.4);
+            border-left: 4px solid var(--neon-cyan);
+            padding: 12px 15px;
+            margin-bottom: 10px;
             border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-left: 4px solid #00ffcc;
         }
-        .item-info {
+        .item-info { flex: 1; }
+        .item-name { font-size: 15px; display: block; margin-bottom: 4px; }
+        .item-price { color: var(--neon-pink); font-weight: bold; font-size: 14px; }
+        .action-btns {
             display: flex;
-            flex-direction: column;
-            gap: 5px;
+            gap: 8px;
         }
-        .item-name {
-            font-size: 16px;
+        .edit-btn, .delete-btn {
+            background: transparent;
+            border-radius: 5px;
+            padding: 5px 8px;
+            font-size: 12px;
+            cursor: pointer;
+            flex: none;
         }
-        .item-price {
-            color: #00ffcc;
-            font-weight: bold;
-            font-size: 15px;
+        .edit-btn {
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
         }
         .delete-btn {
-            background: none;
-            border: none;
-            color: #ff4444;
-            font-size: 18px;
-            cursor: pointer;
-            padding: 5px;
+            border: 1px solid rgba(255, 42, 109, 0.5);
+            color: var(--neon-pink);
         }
-        .no-result {
-            text-align: center;
-            color: #888;
-            padding: 20px;
+        .stats {
+            text-align: right;
+            font-size: 12px;
+            color: #aaa;
+            margin-bottom: 10px;
         }
+        #fileInput { display: none; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>ရွှေဖြိုးအိမ် ကုန်စုံဆိုင်</h2>
+    <h2>ရွှေဖြိုးအိမ် DATA-HUB</h2>
 
-    <!-- ပစ္စည်းအသစ်ထည့်ရန် နေရာ -->
-    <div class="add-box">
-        <h3>+ ပစ္စည်းသစ် ထည့်ရန်</h3>
-        <input type="text" id="newName" class="input-field" placeholder="ပစ္စည်းအမည် (ဥပမာ - ရေသန့်)">
-        <input type="text" id="newPrice" class="input-field" placeholder="ဈေးနှုန်း (ဥပမာ - ၄၀၀ ကျပ်)">
-        <button class="add-btn" onclick="addNewProduct()">စာရင်းသွင်းမည်</button>
+    <div class="glass-panel">
+        <div class="input-group">
+            <input type="text" id="newName" placeholder="ပစ္စည်းအမည် (ဥပမာ - ခေါက်ဆွဲထုပ်)">
+            <input type="text" id="newPrice" placeholder="ဈေးနှုန်း (ဥပမာ - ၇၀၀)">
+            
+            <div class="btn-group">
+                <button class="add-btn" onclick="addOrUpdateProduct()" id="saveBtn">စာရင်းသွင်းမည်</button>
+            </div>
+            
+            <div class="btn-group">
+                <button class="backup-btn" onclick="exportData()">💾 Backup ထုတ်ရန်</button>
+                <button class="backup-btn" onclick="document.getElementById('fileInput').click()">📂 Data ပြန်သွင်းရန်</button>
+                <input type="file" id="fileInput" accept=".json" onchange="importData(event)">
+            </div>
+        </div>
     </div>
 
-    <!-- ရှာဖွေရန် နေရာ -->
-    <input type="text" id="searchInput" class="search-box" placeholder="ပစ္စည်းအမည် ရှာရန်...">
+    <input type="text" id="searchInput" class="search-box glass-panel" placeholder="🔍 ပစ္စည်းအမည် ရှာဖွေရန်...">
+    <div class="stats" id="totalItems">စုစုပေါင်း: 0 မျိုး</div>
     
-    <div class="results" id="resultsContainer"></div>
+    <div id="resultsContainer"></div>
 </div>
 
 <script>
-    // Browser ရဲ့ Local Storage ထဲကနေ Data ကို ခေါ်ယူခြင်း (မရှိရင် အလွတ်ပြမည်)
-    let products = JSON.parse(localStorage.getItem('shwePhyoData')) || [];
+    let products = JSON.parse(localStorage.getItem('shwePhyoDataPRO')) || [];
+    let editingId = null;
 
-    const searchInput = document.getElementById('searchInput');
     const resultsContainer = document.getElementById('resultsContainer');
+    const searchInput = document.getElementById('searchInput');
+    const nameInput = document.getElementById('newName');
+    const priceInput = document.getElementById('newPrice');
+    const saveBtn = document.getElementById('saveBtn');
+    const totalItems = document.getElementById('totalItems');
 
-    // Data များကို ဖုန်းထဲတွင် မှတ်သားပေးမည့် Function
     function saveData() {
-        localStorage.setItem('shwePhyoData', JSON.stringify(products));
+        localStorage.setItem('shwePhyoDataPRO', JSON.stringify(products));
     }
 
-    // UI တွင် ပစ္စည်းစာရင်း ပြသပေးမည့် Function
     function displayProducts(productList) {
         resultsContainer.innerHTML = '';
+        totalItems.innerText = `စုစုပေါင်း: ${products.length} မျိုး`;
         
         if (productList.length === 0) {
-            resultsContainer.innerHTML = '<div class="no-result">မှတ်တမ်းမရှိသေးပါ (သို့) ရှာမတွေ့ပါ...</div>';
+            resultsContainer.innerHTML = '<div style="text-align:center; color:#888;">မှတ်တမ်းမရှိသေးပါ...</div>';
             return;
         }
 
@@ -175,67 +197,100 @@
                     <span class="item-name">${product.name}</span>
                     <span class="item-price">${product.price}</span>
                 </div>
-                <button class="delete-btn" onclick="deleteProduct(${product.id})">🗑️</button>
+                <div class="action-btns">
+                    <button class="edit-btn" onclick="editProduct(${product.id}, '${product.name}', '${product.price}')">ပြင်မည်</button>
+                    <button class="delete-btn" onclick="deleteProduct(${product.id})">ဖျက်မည်</button>
+                </div>
             `;
             resultsContainer.appendChild(div);
         });
     }
 
-    // ပစ္စည်းအသစ် ထည့်မည့် Function
-    function addNewProduct() {
-        const nameInput = document.getElementById('newName');
-        const priceInput = document.getElementById('newPrice');
-        
+    function addOrUpdateProduct() {
         const nameValue = nameInput.value.trim();
         const priceValue = priceInput.value.trim();
 
-        if (nameValue !== "" && priceValue !== "") {
-            // ID ကို အချိန်နှင့် သတ်မှတ်၍ Unique ဖြစ်အောင်လုပ်ခြင်း
-            const newProduct = {
-                id: Date.now(),
-                name: nameValue,
-                price: priceValue
-            };
+        if (nameValue && priceValue) {
+            if (editingId) {
+                // ပြင်ဆင်ခြင်း
+                products = products.map(p => p.id === editingId ? {...p, name: nameValue, price: priceValue} : p);
+                editingId = null;
+                saveBtn.innerText = "စာရင်းသွင်းမည်";
+                saveBtn.style.background = "linear-gradient(45deg, #ff2a6d, #ff5e8e)";
+            } else {
+                // အသစ်ထည့်ခြင်း
+                products.push({ id: Date.now(), name: nameValue, price: priceValue });
+            }
             
-            products.push(newProduct);
-            saveData(); // Storage ထဲ သိမ်းမည်
-            
-            // Box များကို အလွတ်ပြန်ထားမည်
+            saveData();
             nameInput.value = '';
             priceInput.value = '';
             searchInput.value = '';
-            
-            displayProducts(products); // စာရင်းပြန်ပြမည်
+            displayProducts(products);
         } else {
-            alert("ပစ္စည်းအမည် နှင့် ဈေးနှုန်း ထည့်ပေးပါ။");
+            alert("အမည်နှင့် ဈေးနှုန်း အပြည့်အစုံထည့်ပါ။");
         }
     }
 
-    // ပစ္စည်းပြန်ဖျက်မည့် Function
+    function editProduct(id, name, price) {
+        editingId = id;
+        nameInput.value = name;
+        priceInput.value = price;
+        saveBtn.innerText = "အပြောင်းအလဲ သိမ်းမည်";
+        saveBtn.style.background = "linear-gradient(45deg, #00ffcc, #00b38f)";
+        window.scrollTo(0, 0); // အပေါ်ဆုံးသို့ ရွှေ့ပေးရန်
+    }
+
     function deleteProduct(id) {
-        if(confirm("ဒီပစ္စည်းကို စာရင်းထဲကနေ ဖျက်မှာ သေချာလား?")) {
-            products = products.filter(product => product.id !== id);
+        if(confirm("ဖျက်မှာ သေချာပါသလား?")) {
+            products = products.filter(p => p.id !== id);
             saveData();
-            
-            // ရှာဖွေနေတဲ့ စာလုံးရှိရင် ဆက်ရှာပေးထားအောင်
-            const query = searchInput.value.toLowerCase();
-            const filteredProducts = products.filter(product => 
-                product.name.toLowerCase().includes(query)
-            );
-            displayProducts(filteredProducts);
+            displayProducts(products.filter(p => p.name.toLowerCase().includes(searchInput.value.toLowerCase())));
         }
     }
 
-    // ရှာဖွေရေး Input အတွက် Event Listener
+    // JSON ဖိုင်အနေဖြင့် ဖုန်းထဲသို့ Backup ထုတ်ရန်
+    function exportData() {
+        if(products.length === 0) { alert("ထုတ်စရာ Data မရှိသေးပါ!"); return; }
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(products));
+        const downloadAnchorNode = document.createElement('a');
+        downloadAnchorNode.setAttribute("href", dataStr);
+        downloadAnchorNode.setAttribute("download", "shwephyoeain_backup.json");
+        document.body.appendChild(downloadAnchorNode);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+        alert("ဖုန်းထဲသို့ Backup သိမ်းဆည်းပြီးပါပြီ။");
+    }
+
+    // ဖုန်းထဲမှ Backup ဖိုင်ကို ပြန်သွင်းရန်
+    function importData(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    if(Array.isArray(importedData)) {
+                        products = importedData;
+                        saveData();
+                        displayProducts(products);
+                        alert("Data များ အောင်မြင်စွာ ပြန်သွင်းပြီးပါပြီ!");
+                    } else {
+                        alert("ဖိုင်အမျိုးအစား မှားယွင်းနေပါသည်။");
+                    }
+                } catch(error) {
+                    alert("ဖိုင်ဖတ်၍ မရပါ။");
+                }
+            };
+            reader.readAsText(file);
+        }
+    }
+
     searchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
-        const filteredProducts = products.filter(product => 
-            product.name.toLowerCase().includes(query)
-        );
-        displayProducts(filteredProducts);
+        displayProducts(products.filter(p => p.name.toLowerCase().includes(query)));
     });
 
-    // စတင်ဖွင့်ချိန်တွင် ရှိပြီးသား Data များကို ပြသရန်
     displayProducts(products);
 </script>
 
