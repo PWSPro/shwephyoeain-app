@@ -1,414 +1,679 @@
 <!DOCTYPE html>
-<html lang="my">
+<html lang="my" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Shwe Phyo Eain - Premium POS</title>
+    <title>ရွှေဖြိုးအိမ် Mini Mart</title>
     <style>
-        /* Luxury Dark & Gold Theme */
-        :root {
-            --bg-main: #121212;
-            --bg-card: #1e1e1e;
-            --bg-input: #2a2a2a;
-            --text-main: #f5f5f5;
-            --text-muted: #a0a0a0;
-            --gold: #d4af37;
-            --gold-hover: #b5952f;
-            --border: #333333;
-            --danger: #ff4d4d;
-            --success: #4caf50;
+        :root[data-theme="dark"] {
+            --bg-body: #0b0f19;
+            --bg-surface: #151c2c;
+            --bg-elevated: #1e293b;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --border: #26334d;
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --accent: #3b82f6;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --lcd-bg: #1a2e26;
+            --lcd-text: #4ade80;
+            --key-bg: #1e293b;
+            --key-shadow: #090d16;
+            --key-op-bg: #253551;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', -apple-system, sans-serif; user-select: none; }
-        body { background-color: var(--bg-main); color: var(--text-main); padding-bottom: 80px; }
+        :root[data-theme="light"] {
+            --bg-body: #f1f5f9;
+            --bg-surface: #ffffff;
+            --bg-elevated: #f8fafc;
+            --text-main: #0f172a;
+            --text-sub: #64748b;
+            --border: #cbd5e1;
+            --primary: #059669;
+            --primary-dark: #047857;
+            --accent: #2563eb;
+            --danger: #dc2626;
+            --warning: #d97706;
+            --lcd-bg: #dce7dc;
+            --lcd-text: #0f291e;
+            --key-bg: #ffffff;
+            --key-shadow: #94a3b8;
+            --key-op-bg: #e2e8f0;
+        }
 
-        /* Header */
-        header {
-            background: var(--bg-card);
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-bottom: 130px;
+        }
+
+        /* Clean Compact Header */
+        .app-header {
+            background-color: var(--bg-surface);
             border-bottom: 1px solid var(--border);
-            padding: 15px;
-            text-align: center;
+            padding: 10px 14px;
             position: sticky;
             top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 90;
         }
-        .brand { font-size: 20px; font-weight: 800; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; }
-        .sub-brand { font-size: 11px; color: var(--text-muted); letter-spacing: 2px; }
 
-        /* Layout */
-        .container { max-width: 600px; margin: 0 auto; padding: 15px; }
-        .page { display: none; animation: fadeIn 0.3s ease; }
-        .page.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .header-main {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-        /* Cards & Inputs */
-        .card {
-            background: var(--bg-card);
+        .store-brand {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .pill-btn {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .header-sub {
+            max-width: 600px;
+            margin: 6px auto 0;
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text-sub);
+        }
+
+        .map-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        /* Main Layout */
+        .main-wrap {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 12px;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Sub-navigation Pills */
+        .sub-nav {
+            display: flex;
+            background: var(--bg-surface);
             border: 1px solid var(--border);
             border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 14px;
+        }
+
+        .sub-nav-btn {
+            flex: 1;
+            padding: 9px;
+            border: none;
+            background: transparent;
+            color: var(--text-sub);
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .sub-nav-btn.active {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        /* Search Input */
+        .search-wrap {
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 13px 38px 13px 14px;
+            background: var(--bg-surface);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-sub);
+            font-size: 16px;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        /* Category Bar */
+        .cat-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+        }
+
+        .cat-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-btn {
+            padding: 7px 14px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            color: var(--text-sub);
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .cat-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        /* Clean Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .prod-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 96px;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.1s, border-color 0.1s;
+        }
+
+        .prod-card:active {
+            transform: scale(0.97);
+            border-color: var(--primary);
+        }
+
+        .prod-title {
+            font-size: 15px;
+            font-weight: 700;
+            line-height: 1.35;
+            margin-bottom: 6px;
+        }
+
+        .prod-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .prod-price {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .prod-unit {
+            font-size: 11px;
+            color: var(--text-sub);
+            background: var(--bg-elevated);
+            padding: 3px 7px;
+            border-radius: 6px;
+        }
+
+        /* Sticky Floating Cart Bar */
+        .floating-cart {
+            position: fixed;
+            bottom: 68px;
+            left: 12px;
+            right: 12px;
+            max-width: 576px;
+            margin: 0 auto;
+            background: var(--primary);
+            color: #ffffff;
+            padding: 12px 16px;
+            border-radius: 14px;
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.35);
+            z-index: 95;
+            cursor: pointer;
+        }
+
+        .floating-cart.show {
+            display: flex;
+        }
+
+        /* Physical Calculator Styling */
+        .calc-machine {
+            background: var(--bg-surface);
+            border: 2px solid var(--border);
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .calc-lcd {
+            background: var(--lcd-bg);
+            border: 3px inset var(--border);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: right;
+            margin-bottom: 16px;
+            min-height: 92px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .lcd-history {
+            font-size: 14px;
+            color: var(--lcd-text);
+            opacity: 0.75;
+            min-height: 20px;
+            word-break: break-all;
+            font-family: "Courier New", monospace;
+        }
+
+        .lcd-main {
+            font-size: 34px;
+            font-weight: 800;
+            color: var(--lcd-text);
+            letter-spacing: 1px;
+            word-break: break-all;
+            font-family: "Courier New", monospace;
+        }
+
+        .calc-pad {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .tactile-key {
+            background: var(--key-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            border-bottom: 5px solid var(--key-shadow);
+            border-radius: 12px;
+            height: 60px;
+            font-size: 22px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.05s, border-bottom-width 0.05s;
+        }
+
+        .tactile-key:active {
+            transform: translateY(4px);
+            border-bottom-width: 1px;
+        }
+
+        .tactile-key.op-key {
+            background: var(--key-op-bg);
+            color: var(--accent);
+            font-size: 24px;
+        }
+
+        .tactile-key.clr-key {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .tactile-key.eq-key {
+            background: var(--primary);
+            color: #ffffff;
+            border-color: var(--primary-dark);
+            border-bottom-color: #064e3b;
+        }
+
+        /* Generic Cards & Inputs */
+        .box-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 12px;
+        }
+
+        .box-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-body);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-size: 14px;
+            margin-bottom: 10px;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+        }
+
+        .row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .action-btn:active {
+            opacity: 0.9;
+        }
+
+        .list-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+        .badge {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+        }
+
+        /* Summary Grid */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .kpi-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 12px 6px;
+            text-align: center;
+        }
+
+        .kpi-label {
+            font-size: 11px;
+            color: var(--text-sub);
+            margin-bottom: 4px;
+        }
+
+        .kpi-val {
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        /* Slide-up Checkout Drawer */
+        .drawer-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 200;
+        }
+
+        .drawer-backdrop.open {
+            display: flex;
+        }
+
+        .drawer-sheet {
+            background: var(--bg-surface);
+            width: 100%;
+            max-width: 600px;
+            border-radius: 20px 20px 0 0;
             padding: 18px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        .card-title { font-size: 16px; font-weight: 700; color: var(--gold); margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-        
-        input, select {
-            width: 100%; padding: 12px; background: var(--bg-input); border: 1px solid var(--border);
-            border-radius: 8px; color: var(--text-main); font-size: 14px; margin-bottom: 12px; outline: none;
-            transition: 0.3s;
-        }
-        input:focus { border-color: var(--gold); box-shadow: 0 0 8px rgba(212, 175, 55, 0.2); }
-        
-        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-        /* Buttons */
-        .btn {
-            width: 100%; padding: 14px; background: var(--gold); color: #000; border: none;
-            border-radius: 8px; font-size: 14px; font-weight: 800; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
-            transition: 0.2s;
-        }
-        .btn:active { transform: scale(0.97); }
-        .btn-outline { background: transparent; border: 1px solid var(--gold); color: var(--gold); }
-        .btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
-        .btn-small { padding: 6px 12px; font-size: 12px; border-radius: 6px; width: auto; }
-
-        /* List Items */
-        .list-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 12px; background: var(--bg-input); border-radius: 8px; margin-bottom: 8px;
-            border-left: 3px solid var(--gold);
-        }
-        .item-name { font-weight: 700; font-size: 15px; }
-        .item-price { color: var(--gold); font-weight: 800; }
-
-        /* Cart */
-        .cart-box { border: 1px dashed var(--gold); padding: 10px; border-radius: 8px; margin-bottom: 15px; min-height: 80px; }
-        .qty-controls { display: flex; align-items: center; gap: 10px; }
-        .qty-btn { background: var(--bg-card); color: var(--gold); border: 1px solid var(--gold); border-radius: 4px; width: 28px; height: 28px; font-weight: bold; cursor: pointer; }
-
-        /* Cloud Status */
-        .sync-status {
-            text-align: center; font-size: 12px; padding: 8px; margin-bottom: 15px; border-radius: 6px;
-            background: rgba(212, 175, 55, 0.1); color: var(--gold); border: 1px solid var(--gold);
+            max-height: 88vh;
+            overflow-y: auto;
+            border-top: 2px solid var(--primary);
         }
 
-        /* Nav Bar */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card);
-            border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 10px 0; z-index: 100;
+        .qty-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .nav-btn {
-            background: none; border: none; color: var(--text-muted); font-size: 11px; font-weight: 700;
-            display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; flex: 1;
+
+        .qty-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg-elevated);
+            color: var(--text-main);
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
         }
-        .nav-btn.active { color: var(--gold); }
-        .nav-icon { font-size: 20px; }
+
+        .cash-chips {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin: 8px 0 14px;
+        }
+
+        .chip {
+            flex: 1;
+            min-width: 60px;
+            padding: 8px 4px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        /* Bottom Nav */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-surface);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            z-index: 100;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-sub);
+            font-size: 11px;
+            font-weight: 700;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+        }
+
+        .tab-icon {
+            font-size: 19px;
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="brand">SHWE PHYO EAIN</div>
-        <div class="sub-brand">PREMIUM MINI MART</div>
+    <!-- Top Header -->
+    <header class="app-header">
+        <div class="header-main">
+            <div class="store-brand">🏪 ရွှေဖြိုးအိမ် Mini Mart</div>
+            <div class="header-actions">
+                <button class="pill-btn" onclick="toggleLang()" id="langToggle">🌐 EN</button>
+                <button class="pill-btn" onclick="toggleTheme()" id="themeToggle">☀️</button>
+            </div>
+        </div>
+        <div class="header-sub">
+            <span id="liveClock">🕒 Loading...</span>
+            <a href="#" id="headerMapLink" target="_blank" class="map-link">📍 Google Map</a>
+        </div>
     </header>
 
-    <div class="container">
-        <!-- PAGE 1: POS / SELL -->
+    <main class="main-wrap">
+
+        <!-- PAGE 1: CLEAN POS / SELL -->
         <section id="page-pos" class="page active">
-            <div class="sync-status" id="cloudStatusLabel">☁️ Data from Local (Not Synced)</div>
-            
-            <div class="card">
-                <div class="card-title">🛒 Current Bill</div>
-                <div class="cart-box" id="cartContainer">
-                    <div style="text-align: center; color: var(--text-muted); font-size: 12px; margin-top: 20px;">Search below to add items</div>
-                </div>
-                <div class="list-item" style="background: transparent; border: none; padding: 0;">
-                    <span>Total Amount</span>
-                    <span style="font-size: 22px; font-weight: 800; color: var(--gold);" id="cartTotal">0 Ks</span>
-                </div>
-                <button class="btn" style="margin-top: 15px;" onclick="checkout()">Checkout</button>
+            <div class="search-wrap">
+                <input type="text" id="posSearchInput" class="search-input" placeholder="🔍 ပစ္စည်းအမည် ရှာရန်..." oninput="renderPOSGrid()">
+                <button class="clear-search" onclick="clearSearch()">✖</button>
             </div>
 
-            <div class="card">
-                <input type="text" id="searchInput" placeholder="🔍 Search Products..." oninput="renderProducts()">
-                <div id="productGrid"></div>
+            <div class="cat-scroll" id="catContainer"></div>
+
+            <div class="product-grid" id="posGrid"></div>
+        </section>
+
+        <!-- PAGE 2: REAL TACTILE CALCULATOR -->
+        <section id="page-calc" class="page">
+            <div class="calc-machine">
+                <div class="calc-lcd">
+                    <div class="lcd-history" id="calcHistory">0</div>
+                    <div class="lcd-main" id="calcDisplay">0</div>
+                </div>
+
+                <div class="calc-pad">
+                    <button class="tactile-key clr-key" onclick="pressCalc('AC')">AC</button>
+                    <button class="tactile-key op-key" onclick="pressCalc('DEL')">⌫</button>
+                    <button class="tactile-key op-key" onclick="pressCalc('%')">%</button>
+                    <button class="tactile-key op-key" onclick="pressCalc('/')">÷</button>
+
+                    <button class="tactile-key" onclick="pressCalc('7')">7</button>
+                    <button class="tactile-key" onclick="pressCalc('8')">8</button>
+                    <button class="tactile-key" onclick="pressCalc('9')">9</button>
+                    <button class="tactile-key op-key" onclick="pressCalc('*')">×</button>
+
+                    <button class="tactile-key" onclick="pressCalc('4')">4</button>
+                    <button class="tactile-key" onclick="pressCalc('5')">5</button>
+                    <button class="tactile-key" onclick="pressCalc('6')">6</button>
+                    <button class="tactile-key op-key" onclick="pressCalc('-')">−</button>
+
+                    <button class="tactile-key" onclick="pressCalc('1')">1</button>
+                    <button class="tactile-key" onclick="pressCalc('2')">2</button>
+                    <button class="tactile-key" onclick="pressCalc('3')">3</button>
+                    <button class="tactile-key op-key" onclick="pressCalc('+')">+</button>
+
+                    <button class="tactile-key" onclick="pressCalc('0')">0</button>
+                    <button class="tactile-key" onclick="pressCalc('00')">00</button>
+                    <button class="tactile-key" onclick="pressCalc('000')">000</button>
+                    <button class="tactile-key eq-key" onclick="pressCalc('=')">=</button>
+                </div>
+
+                <div class="row-2" style="margin-top: 14px;">
+                    <button class="action-btn" onclick="sendCalcToBill()" data-i18n="addCalcBill">➕ ဘောင်ချာထဲ ထည့်မည်</button>
+                    <button class="action-btn" style="background: var(--accent);" onclick="quickSaleFromCalc()" data-i18n="directSaleCalc">⚡ တိုက်ရိုက်ရောင်းမည်</button>
+                </div>
             </div>
         </section>
 
-        <!-- PAGE 2: INVENTORY -->
+        <!-- PAGE 3: INVENTORY & RESTOCK LIST -->
         <section id="page-inv" class="page">
-            <div class="card">
-                <div class="card-title">➕ Add Product</div>
-                <input type="text" id="pName" placeholder="Product Name">
-                <div class="row-2">
-                    <input type="number" id="pCost" placeholder="Cost (Ks)">
-                    <input type="number" id="pPrice" placeholder="Selling Price (Ks)">
+            <div class="sub-nav">
+                <button class="sub-nav-btn active" onclick="switchInvSub('list', this)" data-i18n="subInvList">📦 ပစ္စည်းစာရင်း</button>
+                <button class="sub-nav-btn" onclick="switchInvSub('add', this)" id="subAddBtn" data-i18n="subInvAdd">➕ အသစ်ထည့်ရန်</button>
+                <button class="sub-nav-btn" onclick="switchInvSub('restock', this)" data-i18n="subRestock">🛒 ဝယ်ရန်စာရင်း</button>
+            </div>
+
+            <!-- Sub 1: Product List -->
+            <div id="inv-sub-list">
+                <div class="search-wrap">
+                    <input type="text" id="invSearchInput" class="search-input" placeholder="🔍 ပစ္စည်းရှာရန် / ပြင်ရန်..." oninput="renderInventoryList()">
                 </div>
-                <button class="btn" onclick="saveProduct()">Save Product</button>
-            </div>
-
-            <div class="card">
-                <div class="card-title">📦 Inventory List (<span id="invCount">0</span>)</div>
-                <div id="invList"></div>
-            </div>
-        </section>
-
-        <!-- PAGE 3: CLOUD SYNC SETTINGS -->
-        <section id="page-cloud" class="page">
-            <div class="card">
-                <div class="card-title">☁️ Cloud Database Setup</div>
-                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px; line-height: 1.5;">
-                    လူတိုင်း (ဖုန်းတိုင်း) ကနေ Data တွေကို အတူတူမြင်ရအောင် JSONBin.io နဲ့ ချိတ်ဆက်ပါ။
-                </p>
-                <label style="font-size: 12px; color: var(--gold);">Bin ID</label>
-                <input type="text" id="binId" placeholder="e.g. 65fa1234...">
-                
-                <label style="font-size: 12px; color: var(--gold);">API Key</label>
-                <input type="password" id="apiKey" placeholder="e.g. $2a$10$...">
-                
-                <button class="btn" onclick="saveCloudSettings()">Save Cloud Credentials</button>
-            </div>
-
-            <div class="card">
-                <div class="card-title">🔄 Manual Sync</div>
-                <div class="row-2">
-                    <button class="btn btn-outline" onclick="uploadToCloud()">⬆️ Upload to Cloud</button>
-                    <button class="btn btn-outline" onclick="downloadFromCloud()">⬇️ Download Data</button>
-                </div>
-                <p style="font-size: 11px; color: var(--danger); margin-top: 10px; text-align: center;">
-                    * Download လုပ်ပါက လက်ရှိဖုန်းထဲက Data အားလုံး Cloud ပေါ်က Data ဖြင့် အစားထိုးခံရပါမည်။
-                </p>
-            </div>
-        </section>
-    </div>
-
-    <!-- Nav -->
-    <nav class="bottom-nav">
-        <button class="nav-btn active" onclick="switchPage('pos', this)">
-            <span class="nav-icon">🛒</span><span>POS</span>
-        </button>
-        <button class="nav-btn" onclick="switchPage('inv', this)">
-            <span class="nav-icon">📦</span><span>ITEMS</span>
-        </button>
-        <button class="nav-btn" onclick="switchPage('cloud', this)">
-            <span class="nav-icon">☁️</span><span>CLOUD</span>
-        </button>
-    </nav>
-
-    <script>
-        // Data State
-        let products = JSON.parse(localStorage.getItem('spe_products')) || [];
-        let cart = [];
-        
-        // Cloud Credentials
-        let cloudBin = localStorage.getItem('spe_binId') || '';
-        let cloudKey = localStorage.getItem('spe_apiKey') || '';
-
-        // Init
-        document.getElementById('binId').value = cloudBin;
-        document.getElementById('apiKey').value = cloudKey;
-        updateCloudStatus();
-        renderProducts();
-        renderInventory();
-
-        // 1. Navigation
-        function switchPage(pageId, btn) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('page-' + pageId).classList.add('active');
-            btn.classList.add('active');
-        }
-
-        // 2. POS Functions
-        function renderProducts() {
-            const q = document.getElementById('searchInput').value.toLowerCase();
-            const grid = document.getElementById('productGrid');
-            grid.innerHTML = '';
-            
-            const filtered = products.filter(p => p.name.toLowerCase().includes(q));
-            filtered.forEach(p => {
-                const div = document.createElement('div');
-                div.className = 'list-item';
-                div.innerHTML = `
-                    <div>
-                        <div class="item-name">${p.name}</div>
-                        <div style="font-size: 12px; color: var(--text-muted);">Stock available</div>
-                    </div>
-                    <button class="btn btn-small" onclick="addToCart(${p.id})">${Number(p.price).toLocaleString()} Ks</button>
-                `;
-                grid.appendChild(div);
-            });
-        }
-
-        function addToCart(id) {
-            const prod = products.find(p => p.id === id);
-            const exists = cart.find(c => c.id === id);
-            if (exists) exists.qty++;
-            else cart.push({ ...prod, qty: 1 });
-            renderCart();
-        }
-
-        function updateQty(id, delta) {
-            const item = cart.find(c => c.id === id);
-            if (item) {
-                item.qty += delta;
-                if (item.qty <= 0) cart = cart.filter(c => c.id !== id);
-                renderCart();
-            }
-        }
-
-        function renderCart() {
-            const container = document.getElementById('cartContainer');
-            container.innerHTML = '';
-            let total = 0;
-
-            if (cart.length === 0) {
-                container.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 12px; margin-top: 20px;">Search below to add items</div>';
-            } else {
-                cart.forEach(c => {
-                    total += c.price * c.qty;
-                    const row = document.createElement('div');
-                    row.style.display = 'flex'; row.style.justifyContent = 'space-between'; row.style.alignItems = 'center'; row.style.marginBottom = '10px';
-                    row.innerHTML = `
-                        <div>
-                            <div style="font-size: 14px; font-weight: bold;">${c.name}</div>
-                            <div style="font-size: 12px; color: var(--gold);">${Number(c.price).toLocaleString()} Ks</div>
-                        </div>
-                        <div class="qty-controls">
-                            <button class="qty-btn" onclick="updateQty(${c.id}, -1)">-</button>
-                            <span>${c.qty}</span>
-                            <button class="qty-btn" onclick="updateQty(${c.id}, 1)">+</button>
-                        </div>
-                    `;
-                    container.appendChild(row);
-                });
-            }
-            document.getElementById('cartTotal').innerText = total.toLocaleString() + ' Ks';
-        }
-
-        function checkout() {
-            if (cart.length === 0) return;
-            alert(`✅ Checkout Success!\nTotal: ${document.getElementById('cartTotal').innerText}`);
-            cart = [];
-            renderCart();
-        }
-
-        // 3. Inventory
-        function saveProduct() {
-            const name = document.getElementById('pName').value.trim();
-            const cost = Number(document.getElementById('pCost').value);
-            const price = Number(document.getElementById('pPrice').value);
-            
-            if (!name || !price) { alert("Enter Name and Price"); return; }
-            
-            products.unshift({ id: Date.now(), name, cost, price });
-            localStorage.setItem('spe_products', JSON.stringify(products));
-            
-            document.getElementById('pName').value = '';
-            document.getElementById('pCost').value = '';
-            document.getElementById('pPrice').value = '';
-            
-            renderProducts();
-            renderInventory();
-            if(cloudBin && cloudKey) uploadToCloud(true); // Auto sync option
-        }
-
-        function deleteProduct(id) {
-            if (confirm("Delete this product?")) {
-                products = products.filter(p => p.id !== id);
-                localStorage.setItem('spe_products', JSON.stringify(products));
-                renderProducts();
-                renderInventory();
-                if(cloudBin && cloudKey) uploadToCloud(true);
-            }
-        }
-
-        function renderInventory() {
-            const list = document.getElementById('invList');
-            list.innerHTML = '';
-            document.getElementById('invCount').innerText = products.length;
-            
-            products.forEach(p => {
-                const div = document.createElement('div');
-                div.className = 'list-item';
-                div.innerHTML = `
-                    <div>
-                        <div class="item-name">${p.name}</div>
-                        <div style="font-size: 12px; color: var(--text-muted);">Cost: ${Number(p.cost).toLocaleString()} | Price: ${Number(p.price).toLocaleString()}</div>
-                    </div>
-                    <button class="btn-danger btn-small" onclick="deleteProduct(${p.id})">🗑️</button>
-                `;
-                list.appendChild(div);
-            });
-        }
-
-        // 4. Cloud Sync (JSONBin.io)
-        function saveCloudSettings() {
-            cloudBin = document.getElementById('binId').value.trim();
-            cloudKey = document.getElementById('apiKey').value.trim();
-            localStorage.setItem('spe_binId', cloudBin);
-            localStorage.setItem('spe_apiKey', cloudKey);
-            alert("Cloud credentials saved!");
-            updateCloudStatus();
-        }
-
-        function updateCloudStatus() {
-            const lbl = document.getElementById('cloudStatusLabel');
-            if (cloudBin && cloudKey) {
-                lbl.innerText = "☁️ Connected to Cloud";
-                lbl.style.color = "var(--success)";
-                lbl.style.borderColor = "var(--success)";
-                lbl.style.background = "rgba(76, 175, 80, 0.1)";
-            } else {
-                lbl.innerText = "☁️ Local Mode (Not Synced)";
-                lbl.style.color = "var(--gold)";
-            }
-        }
-
-        async function uploadToCloud(silent = false) {
-            if (!cloudBin || !cloudKey) { if(!silent) alert("Please setup Cloud Settings first."); return; }
-            if(!silent) document.getElementById('cloudStatusLabel').innerText = "☁️ Uploading...";
-            
-            try {
-                const res = await fetch(`https://api.jsonbin.io/v3/b/${cloudBin}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json', 'X-Master-Key': cloudKey },
-                    body: JSON.stringify({ products })
-                });
-                if (res.ok) {
-                    if(!silent) alert("Successfully uploaded to cloud!");
-                    updateCloudStatus();
-                } else throw new Error();
-            } catch (e) {
-                if(!silent) alert("Upload failed. Check Bin ID and API Key.");
-                updateCloudStatus();
-            }
-        }
-
-        async function downloadFromCloud() {
-            if (!cloudBin || !cloudKey) { alert("Please setup Cloud Settings first."); return; }
-            document.getElementById('cloudStatusLabel').innerText = "☁️ Downloading...";
-            
-            try {
-                const res = await fetch(`https://api.jsonbin.io/v3/b/${cloudBin}/latest`, {
-                    headers: { 'X-Master-Key': cloudKey }
-                });
-                const data = await res.json();
-                
-                if (data.record && data.record.products) {
-                    products = data.record.products;
-                    localStorage.setItem('spe_products', JSON.stringify(products));
-                    renderProducts();
-                    renderInventory();
-                    alert("Data successfully downloaded from cloud!");
-                }
-                updateCloudStatus();
-            } catch (e) {
-                alert("Download failed. Check Bin ID and API Key.");
-                updateCloudStatus();
-            }
-        }
-    </script>
-</body>
-</html>
+                <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 8px; te
